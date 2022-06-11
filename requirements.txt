@@ -1,6 +1,5 @@
 git+https://github.com/Rapptz/discord-ext-menus
 PyNaCl
-async_cleverbot
 discord.py
 asyncdagpi
 youtube_dl

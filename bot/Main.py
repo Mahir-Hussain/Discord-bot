@@ -1,11 +1,10 @@
 import discord
 from discord.ext import commands
 from utils.help import MyHelpCommand
+import aiohttp
 
 import os
 from datetime import datetime
-
-import aiohttp
 
 async def get_prefix(bot,message):
     if message.author.id == 594551272468906003:

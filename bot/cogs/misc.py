@@ -1,13 +1,11 @@
-import json
+import discord
+from discord.ext import commands, tasks
+from discord.ext.commands.cooldowns import BucketType
 
-import aiohttp
-import async_cse
 import os
 import discord
 import humanize
-import psutil
-from discord.ext import commands, tasks
-from discord.ext.commands.cooldowns import BucketType
+
 from utils.utils import Mongodb_t as cogs_t
 
 

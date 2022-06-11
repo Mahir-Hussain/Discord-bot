@@ -1,20 +1,17 @@
+import discord
+from discord.ext import commands
+from discord.ext.commands.cooldowns import BucketType
+import async_cse
+from PyDictionary import PyDictionary
+
 import asyncio
 import datetime
 import io
-import json
-from statistics import mean
 import sys
 import time
-
 import os
-import aiohttp
-import async_cse
-import discord
-import motor.motor_asyncio as motor
 import psutil
-from discord.ext import commands
-from discord.ext.commands.cooldowns import BucketType
-from PyDictionary import PyDictionary
+
 from utils.utils import Mongodb_afks as collection
 from utils.utils import Mongodb_t as cogs_t
 
@@ -75,7 +72,6 @@ class Meta(commands.Cog, name="🤖 Meta"):
             embed.description = results[i].description
             embed.url = results[i].url
             embed.set_image(url=results[i].image_url)
-            print(results[i].image_url)
             embed.set_footer(
                 text=f'Requested by {ctx.author}',
                 icon_url=ctx.author.avatar_url)

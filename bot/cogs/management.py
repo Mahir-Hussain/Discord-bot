@@ -1,9 +1,7 @@
-import json
 import discord
-
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
-import motor.motor_asyncio as motor
+
 from utils.utils import Mongodb_logs as collection
 from utils.utils import Mongodb_t as cogs_t
 
