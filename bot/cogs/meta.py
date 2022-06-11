@@ -134,13 +134,12 @@ class Meta(commands.Cog, name="🤖 Meta"):
         """
         if len(definition) == 0:
             return await ctx.send("You need to send the word that you want defined")
-        meaning = PyDictionary(definition)
         meaning = PyDictionary.meaning(definition) 
         '\n\n'.join(f'{key} : {", ".join(val)}' for key, val in meaning.items())
 
         embed = discord.Embed(
             title=f"Definition of {definition}",
-            description=meaning.getMeanings(), colour=self.bot.colour)
+            description=meaning, colour=self.bot.colour)
         embed.set_footer(
             text=f"Requested by {ctx.author.name} | Dictionary.",
             icon_url=ctx.author.avatar_url,
