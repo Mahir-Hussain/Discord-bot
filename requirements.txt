@@ -1,0 +1,16 @@
+git+https://github.com/Rapptz/discord-ext-menus
+PyNaCl
+async_cleverbot
+discord.py
+asyncdagpi
+youtube_dl
+aiozaneapi
+jishaku
+Pydictionary
+mystbin.py
+async_cse
+dnspython
+psutil
+sr_api
+motor
+humanize

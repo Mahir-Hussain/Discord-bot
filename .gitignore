@@ -1,0 +1,7 @@
+cogs/__pycache__/
+utils/__pycache__/
+__pycache__/
+.venv
+.vscode
+nopush
+bot/tokens.env
