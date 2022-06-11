@@ -16,7 +16,7 @@ async def get_prefix(bot,message):
 
 allowed_mentions = discord.AllowedMentions(roles=False, everyone = False,
                                            users=True, replied_user=False)
-bot = commands.Bot(command_prefix=get_prefix, case_sensitive=False, 
+bot = commands.Bot(command_prefix=get_prefix, case_insensitive=True, 
                    intents=discord.Intents.all(), allowed_mentions=allowed_mentions, 
                    help_command = MyHelpCommand())
 
