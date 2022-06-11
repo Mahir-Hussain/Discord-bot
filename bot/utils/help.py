@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands, menus
 
-import json
-
 news = "Resolute is being remastered. Some commands may not function"
 
 class BaseCog(commands.Cog):

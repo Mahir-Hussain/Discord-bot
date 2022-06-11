@@ -1,6 +1,5 @@
 import asyncio
 import difflib
-import json
 import re
 
 import discord
