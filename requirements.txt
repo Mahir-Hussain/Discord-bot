@@ -4,7 +4,6 @@ async_cleverbot
 discord.py
 asyncdagpi
 youtube_dl
-aiozaneapi
 jishaku
 Pydictionary
 mystbin.py

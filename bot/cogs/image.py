@@ -2,8 +2,6 @@ import io
 import json
 
 import aiohttp
-import aiozaneapi
-import async_cse
 import asyncdagpi
 import discord
 import sr_api
@@ -11,7 +9,6 @@ from asyncdagpi import ImageFeatures
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 from utils.utils import dagpi_img
-from utils.utils import zane_img
 from utils.utils import Mongodb_t as cogs_t
 
 
@@ -21,72 +18,6 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
     def __init__(self, bot):
         self.bot = bot
         self.sr = sr_api.Client()
-
-    '''@commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
-    async def dots(self, ctx, user: discord.Member = None):
-        """
-        Dotifies a given image.
-        """
-        async with ctx.typing():
-            user = user or ctx.author
-            img_file = await zane_img(user=user, zt='dots', types="gif")
-            await ctx.send(file=img_file)
-
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
-    async def magic(self, ctx, user: discord.Member = None):
-        """
-        Applies a magic filter to a given image. Gif.
-        """
-        async with ctx.typing():
-            user = user or ctx.author
-            img_file = await zane_img(user=user, zt="magic", types="gif")
-            await ctx.send(file=img_file)
-
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
-    async def floor(self, ctx, user: discord.Member = None):
-        """
-        Applies a floor effect to a given image. Gif.
-        """
-        async with ctx.typing():
-            user = user or ctx.author
-            img_file = await zane_img(user=user, zt="floor", types="gif")
-            await ctx.send(file=img_file)
-
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
-    async def spread(self, ctx, user: discord.Member = None):
-        """
-        Applies a spread effect to a given image. Gif.
-        """
-        async with ctx.typing():
-            user = user or ctx.author
-            img_file = await zane_img(user=user, zt="spread", types="gif")
-            await ctx.send(file=img_file)
-
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
-    async def sort(self, ctx, user: discord.Member = None):
-        """
-        Applies a sort effect to a given image.
-        """
-        async with ctx.typing():
-            user = user or ctx.author
-            img_file = await zane_img(user=user, zt="sort", types="png")
-            await ctx.send(file=img_file)
-
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
-    async def sobel(self, ctx, user: discord.Member = None):
-        """
-        Applies a sobel effect to a given image.
-        """
-        async with ctx.typing():
-            user = user or ctx.author
-            img_file = await zane_img(user=user, zt="sobel", types="png")
-            await ctx.send(file=img_file)'''
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.member)
