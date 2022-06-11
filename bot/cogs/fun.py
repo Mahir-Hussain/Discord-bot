@@ -1,16 +1,12 @@
-import asyncio
-import datetime
-import json
-import random
-import os
-
-import aiohttp
-import async_cleverbot as ac
 import discord
-import motor.motor_asyncio as motor
-from aiohttp import request
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
+from aiohttp import request
+
+import asyncio
+import datetime
+import random
+
 from utils.utils import Mongodb_t as cogs_t
 
 
@@ -280,34 +276,6 @@ class Fun(commands.Cog, name="🎉 Fun"):
             icon_url=ctx.author.avatar_url)
 
         await ctx.send(embed=embed)
-
-    """
-    @commands.command(aliases=['cb'])
-    @commands.max_concurrency(1, per=BucketType.channel, wait=False)
-    async def chatbot(self, ctx):
-
-        talk = True
-        embed = discord.Embed(colour=self.bot.colour)
-        embed.add_field(
-            name='Chatbot session has started!',
-            value='Type `cancel` to end the session.')
-        await ctx.send(embed=embed)
-        while talk is True:
-            try:
-                m = await self.bot.wait_for('message', timeout=30, check=lambda m: (ctx.author == m.author and ctx.channel == m.channel))
-            except asyncio.TimeoutError:
-                await ctx.send('Timeout Error')
-                talk = False
-            else:
-                if m.content.lower() == "cancel":
-                    talk = False
-                    await ctx.send('Chatbot session has ended.')
-                else:
-                    async with ctx.channel.typing():
-                        response = await self.cleverbot.ask(m.content)
-                        await ctx.send(response.text)
-    """
-
 
 def setup(bot):
     bot.add_cog(Fun(bot))
