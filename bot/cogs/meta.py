@@ -2,6 +2,7 @@ import asyncio
 import datetime
 import io
 import json
+from statistics import mean
 import sys
 import time
 
@@ -134,8 +135,9 @@ class Meta(commands.Cog, name="🤖 Meta"):
         """
         if len(definition) == 0:
             return await ctx.send("You need to send the word that you want defined")
-        meaning = PyDictionary.meaning(definition) 
-        '\n\n'.join(f'{key} : {", ".join(val)}' for key, val in meaning.items())
+        dictionary = PyDictionary()
+        meaning = dictionary.meaning(definition) 
+        meaning = '\n\n'.join(f'{key} : {" | ".join(val)}' for key, val in meaning.items())
 
         embed = discord.Embed(
             title=f"Definition of {definition}",
