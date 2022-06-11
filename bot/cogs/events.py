@@ -16,7 +16,9 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        if message.author.bot == False and message.content in ("<@!769137475942613023>" "<@769137475942613023>"):
+        if message.author.bot:
+            return
+        elif message.content in ("<@!769137475942613023>", "<@769137475942613023>"):
             await message.channel.send("Hey! My prefix's are: `resolute `, `r.` ")
 
     @commands.Cog.listener()
