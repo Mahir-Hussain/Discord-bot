@@ -180,14 +180,5 @@ class Misc(commands.Cog, name="🔨 Misc"):
 
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def uptime(self, ctx):
-        """
-        Gives you the uptime of the bot.
-        """
-        await ctx.send(f"""
-                        __**Uptime**__\nI have been up for {humanize.naturaldelta(self.bot.launch_time)}""")
-
-
 def setup(bot):
     bot.add_cog(Misc(bot))
