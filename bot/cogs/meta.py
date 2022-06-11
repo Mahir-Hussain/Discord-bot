@@ -135,7 +135,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         if len(definition) == 0:
             return await ctx.send("You need to send the word that you want defined")
         meaning = PyDictionary(definition)
-        meaning = PyDictionary.meaning('walk') 
+        meaning = PyDictionary.meaning(definition) 
         '\n\n'.join(f'{key} : {", ".join(val)}' for key, val in meaning.items())
 
         embed = discord.Embed(
