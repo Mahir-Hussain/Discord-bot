@@ -57,7 +57,7 @@ async def dagpi_img(user, feature) -> discord.File:
     """
     dagpi = asyncdagpi.Client(
         os.environ["dagpi"])
-    url = str(user.avatar_url_as(static_format="png"))
+    url = str(user.avatar.replace(static_format="png"))
     img = await dagpi.image_process(feature, url)
     if feature == "colors":
         img_file = discord.File(fp=img.image, filename="image.png")

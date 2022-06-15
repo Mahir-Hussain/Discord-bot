@@ -118,5 +118,5 @@ class Management(commands.Cog, name="⚔️ Management"):
             pass
 
 
-def setup(bot):
-    bot.add_cog(Management(bot))
+async def setup(bot):
+    await bot.add_cog(Management(bot))

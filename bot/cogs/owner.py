@@ -32,7 +32,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         embed = discord.Embed(colour=self.bot.colour)
         embed.set_author(name=f"Sent from {ctx.author}",
-                         icon_url=ctx.author.avatar_url)
+                         icon_url=ctx.author.avatar)
         embed.add_field(name="Message:", value=f'{content}')
         embed.set_footer(text="Resolute |")
         await user.send(embed=embed)
@@ -163,5 +163,5 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         embed = discord.Embed(colour=self.bot.colour)
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(Owner(bot))
+async def setup(bot):
+    await bot.add_cog(Owner(bot))

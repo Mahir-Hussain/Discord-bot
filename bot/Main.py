@@ -1,10 +1,11 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from utils.help import MyHelpCommand
-import aiohttp
 
+import random
+import asyncio
 import os
-from datetime import datetime
+import aiohttp
 
 async def get_prefix(bot,message):
     if message.author.id == 594551272468906003:
@@ -13,20 +14,16 @@ async def get_prefix(bot,message):
         prefixes = ["resolute", "r.", "R."]
     return commands.when_mentioned_or(*prefixes)(bot,message)
 
-allowed_mentions = discord.AllowedMentions(roles=False, everyone = False,
-                                           users=True, replied_user=False)
-bot = commands.Bot(command_prefix=get_prefix, case_insensitive=True, 
-                   intents=discord.Intents.all(), allowed_mentions=allowed_mentions, 
-                   help_command = MyHelpCommand())
+class Resolute(commands.Bot):
+    def __init__(self):
+        allowed_mentions = discord.AllowedMentions(roles=False, everyone = False,
+                                                   users=True, replied_user=False)
 
-async def startup():
-    await bot.wait_until_ready()
-    """
-    Waits to do this until the bot is ready
-    """
-    bot.session = aiohttp.ClientSession()
-    bot.colour = 0XFFFFFF
-    cogs = ['cogs.owner',
+        super().__init__(command_prefix=get_prefix, case_insensitive=True, 
+                        intents=discord.Intents.all(), allowed_mentions=allowed_mentions, 
+                        help_command = MyHelpCommand())
+        self.initial_extensions = [
+            'cogs.owner',
             'cogs.meta',
             'cogs.management',
             'cogs.fun',
@@ -36,15 +33,39 @@ async def startup():
             'cogs.error',
             'cogs.events',
             'jishaku']
-    for cog in cogs:
-        bot.load_extension(cog)
-        print(f'{cog} has been loaded.')
 
-    await bot.change_presence(activity=discord.Game(name="r.help | @Resolute"))
+    async def setup_hook(self):
+        self.background_task.start()
+        for cog in self.initial_extensions:
+            await self.load_extension(cog)
+            print(f"{cog} has been loaded")
 
-os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
-os.environ["JISHAKU_HIDE"] = "True"
+    async def close(self):
+        await super().close()
+        await self.session.close()
 
-bot.loop.create_task(startup())
-bot.run(os.environ["BOT_TOKEN"])
+    @tasks.loop(minutes=10)
+    async def background_task(self):
+        statuses = [
+            "r. help | @resolute",
+            "Resolute",
+            "Watching you"
+            "Beep bop"]
+        await bot.change_presence(activity=discord.Game(name=random.choice(statuses)))
+
+
+    async def on_ready(self):
+        bot.colour = 0XFFFFFF
+
+bot = Resolute()
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        async with bot:
+            bot.session = session
+            os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+            os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
+            os.environ["JISHAKU_HIDE"] = "True"
+            await bot.start(os.environ["BOT_TOKEN"])
+
+asyncio.run(main())

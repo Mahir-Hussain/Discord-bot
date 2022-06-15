@@ -74,7 +74,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             embed.set_image(url=results[i].image_url)
             embed.set_footer(
                 text=f'Requested by {ctx.author}',
-                icon_url=ctx.author.avatar_url)
+                icon_url=ctx.author.avatar)
 
             embed_list.append(embed)
 
@@ -92,7 +92,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         if " " in definition:
             definition = definition.replace(" ", "-")
-        async with self.bot.session.get("http://api.urbandictionary.com/v0/define?term=" + definition) as response:
+        async with self.sessionn.get("http://api.urbandictionary.com/v0/define?term=" + definition) as response:
 
             if response.status != 200:
                 return await ctx.send("Couldn't find that word.")
@@ -116,7 +116,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         embed.url = perma_link
         embed.set_footer(
             text=f"Requested by {ctx.author.name} | Urban dictionary.",
-            icon_url=ctx.author.avatar_url,
+            icon_url=ctx.author.avatar,
         )
         embed.add_field(name="Definition:", value=definition, inline=False)
         embed.add_field(name="Example:", value=example, inline=False)
@@ -140,7 +140,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             description=meaning, colour=self.bot.colour)
         embed.set_footer(
             text=f"Requested by {ctx.author.name} | Dictionary.",
-            icon_url=ctx.author.avatar_url,
+            icon_url=ctx.author.avatar,
         )
         try:
             await ctx.send(embed=embed)
@@ -157,13 +157,13 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         ss = discord.Embed(title=f"Screenshot of {url}", colour=self.bot.colour)
 
-        async with self.bot.session.get(f'https://image.thum.io/get/width/1920/crop/0/maxAge/1/noanimate/https://{url}/') as r:
+        async with self.sessionn.get(f'https://image.thum.io/get/width/1920/crop/0/maxAge/1/noanimate/https://{url}/') as r:
             res = await r.read()
             ss.set_image(url="attachment://webreq.png")
             end = time.perf_counter()
             ss.set_footer(
                 text=f"Requested by {ctx.author.name} | Image fetched in {round((end - start) * 1000)} ms",
-                icon_url=ctx.author.avatar_url)
+                icon_url=ctx.author.avatar)
 
             file_ss = await ctx.send(file=discord.File(io.BytesIO(res), filename="webreq.png"), embed=ss)
             await file_ss.add_reaction("\U0001f6ae")
@@ -189,7 +189,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         url = "http://api.openweathermap.org/data/2.5/weather?q=" + \
             city_name + f"&appid={os.environ['weather']}&units=metric"
 
-        async with self.bot.session.get(url) as response:
+        async with self.session.get(url) as response:
             weather_response = await response.json()
 
             if weather_response['cod'] != 200:
@@ -232,7 +232,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                     text=f'Requested by {ctx.author}',
                     icon_url=f"https://openweathermap.org/img/wn/{weather_response['weather'][0]['icon']}@2x.png")
                 embed.set_author(
-                    name=ctx.author, icon_url=ctx.author.avatar_url)
+                    name=ctx.author, icon_url=ctx.author.avatar)
 
                 await ctx.send(embed=embed)
 
@@ -282,7 +282,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                             value=f"> Sniped message: `{message.content}`"
                             + f"\n> Author: `{message.author}`")
             embed.set_footer(text=f'Requested by {ctx.author}',
-                             icon_url=ctx.author.avatar_url)
+                             icon_url=ctx.author.avatar)
 
             try:
                 await ctx.reply(embed=embed)
@@ -306,7 +306,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                     name='Edit snipe',
                     value=f'> Original Message: `{bf.content}`\n > Edited Message: `{af.content}` \n > Author: `{bf.author}`')
                 embed.set_footer(text=f'Requested by {ctx.author}',
-                                 icon_url=ctx.author.avatar_url)
+                                 icon_url=ctx.author.avatar)
                 await ctx.send(embed=embed)
             else:
                 await ctx.message.add_reaction('<:XSomeColour:784146174163681310>')
@@ -324,7 +324,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             value=f'```autohotkey\n{round(self.bot.latency * 1000)} ms```')
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
 
         start = time.perf_counter()
         message = await ctx.send("You wanted a ping?")
@@ -377,7 +377,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             title=f"User Info")
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
         embed.add_field(
             name='General Info',
             value=f'Username: `{member}` \nNickname: `{member.display_name}` \nID: `{member.id}` \nAccount creation: `{member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC")}` \nBot: {emoji}',
@@ -392,27 +392,9 @@ class Meta(commands.Cog, name="🤖 Meta"):
         except Exception:
             return False
 
-        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_thumbnail(url=member.avatar)
 
         await ctx.send(embed=embed)
-        # embed = discord.Embed(
-        #    colour=(colour),
-        #    timestamp=ctx.message.created_at,
-        #    title=f"User Info")
-        # embed.set_footer(
-        #    text=f'Requested by {ctx.author}',
-        #    icon_url=ctx.author.avatar_url)
-        # embed.add_field(
-        #    name='General Info',
-        #    value=f'Username: `{member}` \nNickname: `{member.display_name}` \nID: `{member.id}` \nAccount creation: `{member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC")}` \nBot: {emoji}',
-        #    inline=False)
-        # embed.add_field(
-        #    name='Guild Info',
-        #    value=f'Joined: `{member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC")}` \nRoles: Too many to display',
-        #    inline=False)
-        # embed.set_thumbnail(url=member.avatar_url)
-
-        # await ctx.send(embed=embed)
 
     @commands.command(aliases=['si'])
     async def serverinfo(self, ctx):
@@ -431,10 +413,10 @@ class Meta(commands.Cog, name="🤖 Meta"):
             name='Server',
             value=f'Members: `{members}` \nBots: `{bots}` \nTotal: `{all_mem}` \nRoles: `{len(ctx.guild.roles)}` \nChannels: `{len(ctx.guild.text_channels)}` \nServer ID: `{ctx.guild.id}` \nCreated at: `{ctx.guild.created_at}`',
             inline=False)
-        embed.set_thumbnail(url=str(ctx.guild.icon_url))
+        embed.set_thumbnail(url=str(ctx.guild.icon))
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
 
@@ -459,10 +441,10 @@ class Meta(commands.Cog, name="🤖 Meta"):
             inline=False)
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(Meta(bot))
+async def setup(bot):
+    await bot.add_cog(Meta(bot))

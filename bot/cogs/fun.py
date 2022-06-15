@@ -77,7 +77,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         """
         Sends a random fact.
         """
-        async with self.bot.session.get("https://uselessfacts.jsph.pl/random.json?language=en") as r:
+        async with self.session.get("https://uselessfacts.jsph.pl/random.json?language=en") as r:
             data = await r.json()
             fact = data["text"]
 
@@ -85,7 +85,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         embed.add_field(name=f'Random fact', value=fact)
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
 
@@ -150,7 +150,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
                   'funny'
                   ]
         sub = random.choice(reddit)
-        async with self.bot.session.get('https://meme-api.herokuapp.com/gimme/' + sub) as resp:
+        async with self.session.get('https://meme-api.herokuapp.com/gimme/' + sub) as resp:
             resp = await resp.json()
 
         if resp['nsfw'] and not ctx.channel.is_nsfw():
@@ -163,7 +163,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             embed.set_image(url=resp['url'])
             embed.set_footer(
                 text=f"r/{sub} | Requested by {ctx.author}",
-                icon_url=ctx.author.avatar_url)
+                icon_url=ctx.author.avatar)
             await ctx.send(embed=embed)
 
     @commands.command(aliases=['r'])
@@ -173,7 +173,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         Choose any sub-reddit of your choice
         """
         try:
-            async with self.bot.session.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}") as resp:
+            async with self.session.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}") as resp:
                 resp = await resp.json()
 
             if resp['nsfw'] and not ctx.channel.is_nsfw():
@@ -186,7 +186,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
                 embed.set_image(url=resp['url'])
                 embed.set_footer(
                     text=f"r/{subreddit} | Requested by {ctx.author}",
-                    icon_url=ctx.author.avatar_url)
+                    icon_url=ctx.author.avatar)
                 await ctx.send(embed=embed)
         except KeyError:
             await ctx.send("That may not be a valid sub-reddit, try another.")
@@ -273,9 +273,9 @@ class Fun(commands.Cog, name="🎉 Fun"):
             value=f"<:dank:798565204353875968> {dankrate}% dankness")
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(Fun(bot))
+async def setup(bot):
+    await bot.add_cog(Fun(bot))

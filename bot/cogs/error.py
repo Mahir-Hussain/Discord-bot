@@ -106,7 +106,7 @@ class Error(commands.Cog):
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             embed.set_footer(
                 text=f'Guild ID: {ctx.guild.id} | Did not send to error channel as you own me :c',
-                icon_url=ctx.author.avatar_url)
+                icon_url=ctx.author.avatar)
             await ctx.send(embed=embed)
 
         else:
@@ -126,12 +126,12 @@ class Error(commands.Cog):
                 inline=False)
             embed.set_footer(
                 text=f'Guild ID: {ctx.guild.id}',
-                icon_url=ctx.author.avatar_url)
+                icon_url=ctx.author.avatar)
             await ctx.send(embed=embed)
 
             error_channel = self.bot.get_channel(796767809186299934)
             await error_channel.send(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(Error(bot))
+async def setup(bot):
+    await bot.add_cog(Error(bot))

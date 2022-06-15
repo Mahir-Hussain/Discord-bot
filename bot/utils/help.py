@@ -86,7 +86,7 @@ class MainHelp(menus.ListPageSource):
 class MyHelpCommand(commands.HelpCommand):
 
     async def get_ending_note(self):
-        return f"Type {self.clean_prefix}{self.invoked_with} Use help [module] for more info on a module. \nUse help [command] for more info on a command."
+        return f"Type r.{self.invoked_with} Use help [module] for more info on a module. \nUse help [command] for more info on a command."
 
     async def send_bot_help(self, mapping):
         cats = []
@@ -105,7 +105,7 @@ class MyHelpCommand(commands.HelpCommand):
 
     async def send_cog_help(self, cog: BaseCog):
         ctx = self.context
-        prefix = self.clean_prefix
+        prefix = "r."
         if not hasattr(cog, "show_name"):
             pass
         entries = await self.filter_commands(cog.get_commands(), sort=True)
@@ -148,7 +148,7 @@ class MyHelpCommand(commands.HelpCommand):
 
     async def send_group_help(self, group: commands.Group):
         ctx = self.context
-        prefix = self.clean_prefix
+        prefix = "r."
         subcommands = group.commands
         if len(subcommands) == 0:
             return await self.send_command_help(group)
@@ -160,4 +160,4 @@ class MyHelpCommand(commands.HelpCommand):
         await menu.start(ctx)
     
     def get_command_signature(self, command: commands.Command):
-        return f"{self.clean_prefix}{command.qualified_name} {command.signature}"
+        return f"r.{command.qualified_name} {command.signature}"

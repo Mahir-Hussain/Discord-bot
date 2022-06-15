@@ -186,7 +186,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
 
             embed = discord.Embed(title=str(member), colour=self.bot.colour)
 
-            avatar = str(member.avatar_url_as(static_format="png"))
+            avatar = str(member.default_avatar.replace(static_format="png"))
             username = member.display_name
             comment = comments
             image = self.sr.youtube_comment(avatar, username, comment)
@@ -194,12 +194,12 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             embed.set_image(url="attachment://ytcomment.png")
             embed.set_footer(
                 text=f'Requested by {ctx.author}',
-                icon_url=ctx.author.avatar_url)
+                icon_url=ctx.author.avatar)
 
             file = discord.File(io.BytesIO(await image.read()), filename="ytcomment.png")
 
             await ctx.send(embed=embed, file=file)
 
 
-def setup(bot):
-    bot.add_cog(Image(bot))
+async def setup(bot):
+    await bot.add_cog(Image(bot))

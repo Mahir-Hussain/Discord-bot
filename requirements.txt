@@ -1,6 +1,6 @@
 git+https://github.com/Rapptz/discord-ext-menus
 PyNaCl
-discord.py
+git+https://github.com/Rapptz/discord.py
 asyncdagpi
 youtube_dl
 jishaku

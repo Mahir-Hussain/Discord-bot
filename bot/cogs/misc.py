@@ -20,9 +20,9 @@ class Misc(commands.Cog, name="🔨 Misc"):
         self.ep = "https://top.gg/api/"
         self.updatestats.start()
 
-    @tasks.loop(minutes=30)
+    @tasks.loop(minutes=100)
     async def updatestats(self):
-        """Updates the bot's guild / shard count on top.gg every 30 minutes"""
+        """Updates the bot's guild / shard count on top.gg"""
 
         await self.bot.wait_until_ready()
 
@@ -37,7 +37,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         if shards:
             data['shard_count'] = shards
 
-        response = await self.bot.session.post(
+        response = await self.session.post(
             url=url,
             headers=self.headers,
             data=data
@@ -74,7 +74,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         embed = discord.Embed(title=title, description=s, colour=self.bot.colour)
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
         try:
             await ctx.channel.purge(limit=1)
         except BaseException:
@@ -92,7 +92,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         """
         emoji_name = name or emoji.name
 
-        emoji_bytes = await emoji.url.read()
+        emoji_bytes = await emoji.read()
 
         if len(ctx.guild.emojis) == ctx.guild.emoji_limit:
             return await ctx.send("I can't add that as the server has reached its emoji limit")
@@ -113,7 +113,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
 
         params = dict(userId=member.id)
 
-        response = await self.bot.session.get(
+        response = await self.session.get(
             url=url,
             headers=self.headers,
             params=params
@@ -164,7 +164,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             value=f"{user1.name} - Helped make the bot's profile picture.")
         embed.set_footer(
             text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar_url)
+            icon_url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
 
@@ -180,5 +180,5 @@ class Misc(commands.Cog, name="🔨 Misc"):
 
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(Misc(bot))
+async def setup(bot):
+    await bot.add_cog(Misc(bot))
