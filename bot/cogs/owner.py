@@ -13,6 +13,11 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
 
     @commands.command()
     @commands.is_owner()
+    async def a(self, ctx):
+        await self.bot.change_presence(activity=discord.Game(name="r. help | @resolute"))
+
+    @commands.command()
+    @commands.is_owner()
     async def say(self, ctx, *, text):
         """
         Say any message through the bot.
@@ -129,7 +134,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         Load a cog
         """
-        self.bot.load_extension(f'cogs.{extension}')
+        await self.bot.load_extension(f'cogs.{extension}')
         await ctx.reply(f'`{extension}`' " loaded")
 
     @commands.command()
@@ -138,7 +143,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         Unload a cog.
         """
-        self.bot.unload_extension(f'cogs.{extension}')
+        await self.bot.unload_extension(f'cogs.{extension}')
         await ctx.reply(f'`{extension}`' " unloaded")
 
     @commands.command()
@@ -148,8 +153,8 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         Reload a cog.
         """
         for e in extension:
-            self.bot.unload_extension(f'cogs.{e}')
-            self.bot.load_extension(f'cogs.{e}')
+            await self.bot.unload_extension(f'cogs.{e}')
+            await self.bot.load_extension(f'cogs.{e}')
             await ctx.reply(f':repeat: `{e}`' " reloaded")
     
     @commands.command()

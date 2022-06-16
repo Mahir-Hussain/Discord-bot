@@ -352,7 +352,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         Check a users discord permissions.
         """
         user = user or ctx.author
-        await ctx.send(" | ".join([perm for perm, val in dict(user.permissions_in(ctx.channel)).items() if val]).replace("_", " "))
+        await ctx.send(" | ".join([perm for perm, val in dict(user.guild_permissions).items() if val]).replace("_", " "))
 
     @commands.command(aliases=["whois"])
     @commands.cooldown(1, 3, BucketType.user)

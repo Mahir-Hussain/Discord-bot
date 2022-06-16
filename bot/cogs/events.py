@@ -2,19 +2,12 @@ import discord
 from discord.ext import commands
 from utils.utils import Mongodb_afks as collection
 
-import json
-import random
-
-import motor.motor_asyncio as motor
-import pymongo
-
-
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_message(self, message):
+    async def on_message(self, message, bot):
 
         if message.author.bot:
             return

@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands, tasks
 from utils.help import MyHelpCommand
 
-import random
 import asyncio
 import os
 import aiohttp
@@ -42,17 +41,10 @@ class Resolute(commands.Bot):
 
     async def close(self):
         await super().close()
-        await self.session.close()
 
-    @tasks.loop(minutes=10)
-    async def background_task(self):
-        statuses = [
-            "r. help | @resolute",
-            "Resolute",
-            "Watching you"
-            "Beep bop"]
-        await bot.change_presence(activity=discord.Game(name=random.choice(statuses)))
-
+    @tasks.loop(minutes=100000)
+    async def background_task(self, bot):
+        print("a")
 
     async def on_ready(self):
         bot.colour = 0XFFFFFF
