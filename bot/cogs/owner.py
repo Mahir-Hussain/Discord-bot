@@ -4,20 +4,21 @@ from discord.ext import commands
 import random
 import subprocess as sp
 
+from humanize import activate
+
+
 class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
     """
     Commands for the owner of the bot
     """
+
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    @commands.is_owner()
-    async def a(self, ctx):
-        await self.bot.change_presence(activity=discord.Game(name="r. help | @resolute"))
+    async def cog_check(self, ctx):
+        return await self.bot.is_owner(ctx.author)
 
     @commands.command()
-    @commands.is_owner()
     async def say(self, ctx, *, text):
         """
         Say any message through the bot.
@@ -30,7 +31,6 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
             return False
 
     @commands.command()
-    @commands.is_owner()
     async def dm(self, ctx, user: discord.Member, *, content):
         """
         DM someone
@@ -46,39 +46,17 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         )
 
     @commands.command()
-    # Stolen from Isirk [https://github.com/isirk/Sirk/]
-    @commands.is_owner()
-    async def status(self, ctx, types, *, status=None):
+    async def status(self, ctx, type, *, status=None):
         """
         Change the bot status:
         Playing, listening, watching, bot, competing, streaming, reset.
         """
-        if types == "playing":
-            await self.bot.change_presence(activity=discord.Game(name=f"{status}"))
-            await ctx.reply(f'<:TickSomeColour:780469518010155109> Changed status to `Playing {status}`')
-        elif types == "listening":
-            await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{status}"))
-            await ctx.reply(f'<:TickSomeColour:780469518010155109>  Changed status to `Listening to {status}`')
-        elif types == "watching":
-            await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{status}"))
-            await ctx.reply(f'<:TickSomeColour:780469518010155109>  Changed status to `Watching {status}`')
-        elif types == "bot":
-            await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(self.bot.users)} users in {len(self.bot.guilds)} servers"))
-            await ctx.reply(f'<:TickSomeColour:780469518010155109> Changed status to `Watching {len(self.bot.users)} users in {len(self.bot.guilds)} servers`')
-        elif types == "competing":
-            await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.competing, name=f"{status}"))
-            await ctx.reply(f'<:TickSomeColour:780469518010155109>  Changed status to `Competing in {status}`')
-        elif types == "streaming":
-            await self.bot.change_presence(activity=discord.Streaming(name=f"{status}", url="https://www.twitch.tv/rickroll"))
-            await ctx.relpy(f'<:TickSomeColour:780469518010155109>  Changed status to `Streaming {status}`')
-        elif types == "reset":
-            await self.bot.change_presence(status=discord.Status.online)
-            await ctx.reply("<:TickSomeColour:780469518010155109>  Reset Status")
+        if type == "playing":
+            await self.bot.change_precense(acitivity=discord.Game(name=status))
         else:
-            await ctx.reply("Type needs to be either `playing|listening|watching|streaming|competing|bot|reset`")
+            await self.bot.change_precense(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
 
     @commands.command()
-    @commands.is_owner()
     async def guilds(self, ctx):
         """
         Sends the guilds the bot is in.
@@ -91,7 +69,6 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         await ctx.send(paste)
 
     @commands.command()
-    @commands.is_owner()
     async def get_invite(self, ctx, ids: int):
         """
         Get the invite link for a server
@@ -109,18 +86,18 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         await ctx.author.send(invite)
 
     @commands.command()
-    @commands.is_owner()
     async def gleave(self, ctx, id: int):
         """
         Leave a specified Guild.
         """
-        embed = discord.Embed(title=f'Leaving the guild.', colour=self.bot.colour)
+        embed = discord.Embed(
+            title=f'Leaving the guild.',
+            colour=self.bot.colour)
         await ctx.reply(embed=embed)
         get_guild = self.bot.get_guild(id)
         await get_guild.leave()
 
     @commands.command()
-    @commands.is_owner()
     async def nick(self, ctx, *, name: str):
         """
         Change the nickname for the bot.
@@ -129,7 +106,6 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         await ctx.reply(f"Changed my username to `{name}`")
 
     @commands.command()
-    @commands.is_owner()
     async def load(self, ctx, extension):
         """
         Load a cog
@@ -138,7 +114,6 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         await ctx.reply(f'`{extension}`' " loaded")
 
     @commands.command()
-    @commands.is_owner()
     async def unload(self, ctx, extension):  # Don't unload this cog lol
         """
         Unload a cog.
@@ -147,7 +122,6 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         await ctx.reply(f'`{extension}`' " unloaded")
 
     @commands.command()
-    @commands.is_owner()
     async def reload(self, ctx, *extension):
         """
         Reload a cog.
@@ -156,17 +130,17 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
             await self.bot.unload_extension(f'cogs.{e}')
             await self.bot.load_extension(f'cogs.{e}')
             await ctx.reply(f':repeat: `{e}`' " reloaded")
-    
+
     @commands.command()
-    @commands.is_owner()
     async def colour(self, ctx, new):
         """
         Change the bot's embed colour
         """
         self.bot.colour = int(new, 16)
-        
+
         embed = discord.Embed(colour=self.bot.colour)
         await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Owner(bot))

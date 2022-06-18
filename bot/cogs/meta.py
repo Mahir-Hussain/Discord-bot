@@ -20,6 +20,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
     """
     These commands give some information
     """
+
     def __init__(self, bot):
         self.bot = bot
         self.messages = {}  # Dict for storing sniped messages
@@ -111,7 +112,9 @@ class Meta(commands.Cog, name="🤖 Meta"):
         if len(definition) > 1024 or len(example) > 1024:
             return await ctx.send("The lookup for this word is way too big to show.")
 
-        embed = discord.Embed(title=f"Definition of {word}", colour=self.bot.colour)
+        embed = discord.Embed(
+            title=f"Definition of {word}",
+            colour=self.bot.colour)
         embed.set_author(name=f"Definition by: {author}")
         embed.url = perma_link
         embed.set_footer(
@@ -132,8 +135,10 @@ class Meta(commands.Cog, name="🤖 Meta"):
         if len(definition) == 0:
             return await ctx.send("You need to send the word that you want defined")
         dictionary = PyDictionary()
-        meaning = dictionary.meaning(definition) 
-        meaning = '\n\n'.join(f'{key} : {" | ".join(val)}' for key, val in meaning.items())
+        meaning = dictionary.meaning(definition)
+        meaning = '\n\n'.join(
+            f'{key} : {" | ".join(val)}' for key,
+            val in meaning.items())
 
         embed = discord.Embed(
             title=f"Definition of {definition}",
@@ -155,7 +160,9 @@ class Meta(commands.Cog, name="🤖 Meta"):
         start = time.perf_counter()
         await ctx.send('This may take some time.')
 
-        ss = discord.Embed(title=f"Screenshot of {url}", colour=self.bot.colour)
+        ss = discord.Embed(
+            title=f"Screenshot of {url}",
+            colour=self.bot.colour)
 
         async with self.sessionn.get(f'https://image.thum.io/get/width/1920/crop/0/maxAge/1/noanimate/https://{url}/') as r:
             res = await r.read()

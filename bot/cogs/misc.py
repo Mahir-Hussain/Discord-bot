@@ -13,6 +13,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
     """
     Some random commands
     """
+
     def __init__(self, bot):
         self.bot = bot
         self.auth = os.environ["TopGG"]
@@ -44,7 +45,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         )
 
         if response.status != 200:
-            #raise Exception(
+            # raise Exception(
             #    "During DBL update loop received code {}: {}".format(
             #        response.status, response.reason))
             pass
@@ -71,7 +72,10 @@ class Misc(commands.Cog, name="🔨 Misc"):
         for i in options:
             s += f"{num} - {i}\n"
             num += 1
-        embed = discord.Embed(title=title, description=s, colour=self.bot.colour)
+        embed = discord.Embed(
+            title=title,
+            description=s,
+            colour=self.bot.colour)
         embed.set_footer(
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
@@ -179,6 +183,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             colour=self.bot.colour)
 
         await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Misc(bot))

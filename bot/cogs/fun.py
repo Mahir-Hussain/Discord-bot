@@ -14,6 +14,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
     """
     Fun commands for you to use
     """
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -240,7 +241,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
 
             elif str(reaction) == emojis[1] and bots_choice == emojis[0]:
                 embed.description = f"You have won. The bot chose {bots_choice}"
-                embed.colour = self.bot.colour#
+                embed.colour = self.bot.colour
 
             elif str(reaction) == emojis[2] and bots_choice == emojis[1]:
                 embed.description = f"You have won. The bot chose {bots_choice}"
@@ -276,6 +277,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             icon_url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Fun(bot))

@@ -111,7 +111,7 @@ class Error(commands.Cog):
 
         else:
             embed = discord.Embed(colour=self.bot.colour)
-            embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
+            embed.add_field(name="⚠️ | Command error! This has been sent to my owner.", value=f'```{error}```')
             embed.add_field(
                 name='Author:',
                 value=f'> `{ctx.author}`',

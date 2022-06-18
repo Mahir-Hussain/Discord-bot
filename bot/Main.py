@@ -6,21 +6,26 @@ import asyncio
 import os
 import aiohttp
 
-async def get_prefix(bot,message):
+
+async def get_prefix(bot, message):
     if message.author.id == 594551272468906003:
         prefixes = ["resolute", "r.", "R.", ""]
     else:
         prefixes = ["resolute", "r.", "R."]
-    return commands.when_mentioned_or(*prefixes)(bot,message)
+    return commands.when_mentioned_or(*prefixes)(bot, message)
+
 
 class Resolute(commands.Bot):
     def __init__(self):
-        allowed_mentions = discord.AllowedMentions(roles=False, everyone = False,
-                                                   users=True, replied_user=False)
+        allowed_mentions = discord.AllowedMentions(
+            roles=False, everyone=False, users=True, replied_user=False)
 
-        super().__init__(command_prefix=get_prefix, case_insensitive=True, 
-                        intents=discord.Intents.all(), allowed_mentions=allowed_mentions, 
-                        help_command = MyHelpCommand())
+        super().__init__(
+            command_prefix=get_prefix,
+            case_insensitive=True,
+            intents=discord.Intents.all(),
+            allowed_mentions=allowed_mentions,
+            help_command=MyHelpCommand())
         self.initial_extensions = [
             'cogs.owner',
             'cogs.meta',
@@ -42,16 +47,16 @@ class Resolute(commands.Bot):
     async def close(self):
         await super().close()
 
-    @tasks.loop(minutes=100000)
-    async def background_task(self, bot):
-        print("a")
-
     async def on_ready(self):
-        bot.colour = 0XFFFFFF
+        print("Online!")
 
-bot = Resolute()
+    @tasks.loop(minutes=900)
+    async def background_task(self):
+        print("")
+
 
 async def main():
+    bot = Resolute()
     async with aiohttp.ClientSession() as session:
         async with bot:
             bot.session = session

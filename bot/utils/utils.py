@@ -9,7 +9,8 @@ cluster = motor.AsyncIOMotorClient(
     os.environ["database"])
 db = cluster["resolute"]
 
-async  def Mongodb_t(mt: str, find: str):
+
+async def Mongodb_t(mt: str, find: str):
     """
     Acess the Mongo DB for cog highlights
     """
@@ -20,7 +21,8 @@ async  def Mongodb_t(mt: str, find: str):
     elif mt == "delete_one":
         await collection.delete_one({'_id': find})
     elif mt == "insert_one":
-        await collection.insert_one(find)  
+        await collection.insert_one(find)
+
 
 async def Mongodb_afks(mt: str, find: int):
     """
@@ -35,8 +37,9 @@ async def Mongodb_afks(mt: str, find: int):
     elif mt == "insert_one":
         await collection.insert_one(find)
     elif mt == "command":
-       found = await db.command(find)
-       return found
+        found = await db.command(find)
+        return found
+
 
 async def Mongodb_logs(mt: str, find: str):
     """
@@ -50,6 +53,7 @@ async def Mongodb_logs(mt: str, find: str):
         await collection.delete_one({'_id': find})
     elif mt == "insert_one":
         await collection.insert_one(find)
+
 
 async def dagpi_img(user, feature) -> discord.File:
     """
