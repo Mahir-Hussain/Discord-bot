@@ -29,7 +29,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             title="Coin Flip",
             description=(
                 random.choice(choices)),
-            colour=(self.bot.colour))
+            colour=(ctx.author.colour))
         await ctx.send(embed=embed)
 
     @commands.command(name='8ball')
@@ -50,7 +50,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         embed = discord.Embed(
             title=f"You asked 8ball: {question}",
             description=f'Answer: `{random.choice(choices)}`',
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -82,7 +82,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             data = await r.json()
             fact = data["text"]
 
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(name=f'Random fact', value=fact)
         embed.set_footer(
             text=f'Requested by {ctx.author}',
@@ -118,16 +118,16 @@ class Fun(commands.Cog, name="🎉 Fun"):
             "was allergic."]
         choice = random.choice(rand)
 
-        m = await ctx.send(embed=discord.Embed(title="The Cookie is coming", colour=self.bot.colour))
+        m = await ctx.send(embed=discord.Embed(title="The Cookie is coming", colour=ctx.author.colour))
         await asyncio.sleep(3)
-        await m.edit(embed=discord.Embed(title="The Cookie is coming in 3", colour=self.bot.colour))
+        await m.edit(embed=discord.Embed(title="The Cookie is coming in 3", colour=ctx.author.colour))
         await asyncio.sleep(1)
-        await m.edit(embed=discord.Embed(title="The Cookie is coming in 2", colour=self.bot.colour))
+        await m.edit(embed=discord.Embed(title="The Cookie is coming in 2", colour=ctx.author.colour))
         await asyncio.sleep(1)
-        await m.edit(embed=discord.Embed(title="The Cookie is coming in 1", colour=self.bot.colour))
+        await m.edit(embed=discord.Embed(title="The Cookie is coming in 1", colour=ctx.author.colour))
         random_time = random.randint(1, 5)
         await asyncio.sleep(random_time)
-        await m.edit(embed=discord.Embed(title=":cookie: Grab the Cookie", colour=self.bot.colour))
+        await m.edit(embed=discord.Embed(title=":cookie: Grab the Cookie", colour=ctx.author.colour))
 
         await m.add_reaction("\U0001f36a")
 
@@ -160,7 +160,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             embed = discord.Embed(
                 title=f"{resp['title']} by u/{resp['author']}",
                 url=resp['postLink'],
-                colour=self.bot.colour)
+                colour=ctx.author.colour)
             embed.set_image(url=resp['url'])
             embed.set_footer(
                 text=f"r/{sub} | Requested by {ctx.author}",
@@ -183,7 +183,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
                 embed = discord.Embed(
                     title=f"{resp['title']} by u/{resp['author']}",
                     url=resp['postLink'],
-                    colour=self.bot.colour)
+                    colour=ctx.author.colour)
                 embed.set_image(url=resp['url'])
                 embed.set_footer(
                     text=f"r/{subreddit} | Requested by {ctx.author}",
@@ -199,7 +199,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         Play rock paper scissors with the bot!
         """
         options = f"What's your choice {ctx.author}? Rock, Paper or Scissors..."
-        embed = discord.Embed(title=options, colour=self.bot.colour)
+        embed = discord.Embed(title=options, colour=ctx.author.colour)
 
         msg = await ctx.send(embed=embed)
 
@@ -233,23 +233,23 @@ class Fun(commands.Cog, name="🎉 Fun"):
         else:
             if str(reaction) == bots_choice:
                 embed.description = f"You drew!"
-                embed.colour = self.bot.colour
+                embed.colour = ctx.author.colour
 
             elif str(reaction) == emojis[0] and bots_choice == emojis[2]:
                 embed.description = f"You have won. The bot chose {bots_choice}"
-                embed.colour = self.bot.colour
+                embed.colour = ctx.author.colour
 
             elif str(reaction) == emojis[1] and bots_choice == emojis[0]:
                 embed.description = f"You have won. The bot chose {bots_choice}"
-                embed.colour = self.bot.colour
+                embed.colour = ctx.author.colour
 
             elif str(reaction) == emojis[2] and bots_choice == emojis[1]:
                 embed.description = f"You have won. The bot chose {bots_choice}"
-                embed.colour = self.bot.colour
+                embed.colour = ctx.author.colour
 
             else:
                 embed.description = f"You lost, how sad. The bot chose {bots_choice}"
-                embed.colour = self.bot.colour
+                embed.colour = ctx.author.colour
 
             try:
                 await msg.clear_reactions()
@@ -268,7 +268,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
 
         dankrate = random.randint(1, 100)
 
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(
             name=f"{member}'s dankrate",
             value=f"<:dank:798565204353875968> {dankrate}% dankness")

@@ -75,7 +75,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         embed = discord.Embed(
             title=title,
             description=s,
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
         embed.set_footer(
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
@@ -140,7 +140,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         embed = discord.Embed(
             title='TOP.GG link, thanks if you vote/invite!',
             url="https://top.gg/bot/769137475942613023",
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
 
         await ctx.send(embed=embed)
 
@@ -149,7 +149,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         """
         Gives info about the source code
         """
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(
             name='Source',
             value="Don't mind the mess, this code is quite old and will be improved !https://github.com/LtCustard/Resolute/")
@@ -162,7 +162,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         Send credit's regarding the bot.
         """
         user1 = self.bot.get_user(434734486404726785)
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(
             name="Credit's",
             value=f"{user1.name} - Helped make the bot's profile picture.")
@@ -180,7 +180,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         embed = discord.Embed(
             title='Discord invite',
             description='[Invite](https://discord.gg/jpVmkbbnBE)',
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
 
         await ctx.send(embed=embed)
 

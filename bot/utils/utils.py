@@ -1,9 +1,12 @@
-from io import BytesIO
-import os
-import asyncdagpi
-import discord
 import motor.motor_asyncio as motor
 from discord.ext import commands
+
+import os
+
+def bypass_for_owner(message):
+    if message.author.id == 594551272468906003:
+        return None
+    return commands.Cooldown(1, 10)
 
 cluster = motor.AsyncIOMotorClient(
     os.environ["database"])
@@ -53,19 +56,3 @@ async def Mongodb_logs(mt: str, find: str):
         await collection.delete_one({'_id': find})
     elif mt == "insert_one":
         await collection.insert_one(find)
-
-
-async def dagpi_img(user, feature) -> discord.File:
-    """
-    Access the Dagpi API
-    """
-    dagpi = asyncdagpi.Client(
-        os.environ["dagpi"])
-    url = str(user.avatar.replace(static_format="png"))
-    img = await dagpi.image_process(feature, url)
-    if feature == "colors":
-        img_file = discord.File(fp=img.image, filename="image.png")
-    else:
-        img_file = discord.File(fp=img.image, filename=f"image.{img.format}")
-    await dagpi.close()
-    return img_file

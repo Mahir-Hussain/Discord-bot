@@ -32,12 +32,12 @@ class Management(commands.Cog, name="⚔️ Management"):
         Shows what log types have been activated
         """
         if await collection(mt="find_one", find=ctx.guild.id):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name='Emoji Logging', value='On')
             await ctx.send(embed=embed)
 
         else:
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name='Emoji Logging', value='Off')
             await ctx.send(embed=embed)
 
@@ -95,7 +95,7 @@ class Management(commands.Cog, name="⚔️ Management"):
                 if (reaction.message.guild.id) == guild:
                     if emoji == "emoji":
 
-                        embed = discord.Embed(colour=self.bot.colour)
+                        embed = discord.Embed(colour=ctx.author.colour)
                         embed.add_field(
                             name="Reaction removed",
                             value=f"""> Emoji content sent: {reaction.emoji} \n> Emoji author: `{user}`""")

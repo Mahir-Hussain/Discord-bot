@@ -8,7 +8,7 @@ class BaseCog(commands.Cog):
         super().__init__()
         self.bot = bot
         self.show_name = show_name
-        colour = self.bot.colour
+        colour = 0X00BFFF
 
 class MyPages(menus.MenuPages):
 

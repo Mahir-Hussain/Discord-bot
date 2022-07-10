@@ -6,7 +6,7 @@ from asyncdagpi import ImageFeatures
 
 import io
 
-from utils.utils import dagpi_img
+from utils.image import dagpi_img
 from utils.utils import Mongodb_t as cogs_t
 
 
@@ -184,7 +184,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             member = member or ctx.author
 
-            embed = discord.Embed(title=str(member), colour=self.bot.colour)
+            embed = discord.Embed(title=str(member), colour=ctx.author.colour)
 
             avatar = str(member.default_avatar.replace(static_format="png"))
             username = member.display_name

@@ -35,7 +35,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         DM someone
         """
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         embed.set_author(name=f"Sent from {ctx.author}",
                          icon_url=ctx.author.avatar)
         embed.add_field(name="Message:", value=f'{content}')
@@ -92,7 +92,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         embed = discord.Embed(
             title=f'Leaving the guild.',
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
         await ctx.reply(embed=embed)
         get_guild = self.bot.get_guild(id)
         await get_guild.leave()
@@ -136,9 +136,9 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         Change the bot's embed colour
         """
-        self.bot.colour = int(new, 16)
+        ctx.author.colour = int(new, 16)
 
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         await ctx.send(embed=embed)
 
 

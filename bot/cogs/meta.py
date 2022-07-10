@@ -68,7 +68,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         embed_list = []
 
         for i in range(1):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.title = results[i].title
             embed.description = results[i].description
             embed.url = results[i].url
@@ -114,7 +114,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         embed = discord.Embed(
             title=f"Definition of {word}",
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
         embed.set_author(name=f"Definition by: {author}")
         embed.url = perma_link
         embed.set_footer(
@@ -142,7 +142,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         embed = discord.Embed(
             title=f"Definition of {definition}",
-            description=meaning, colour=self.bot.colour)
+            description=meaning, colour=ctx.author.colour)
         embed.set_footer(
             text=f"Requested by {ctx.author.name} | Dictionary.",
             icon_url=ctx.author.avatar,
@@ -162,7 +162,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         ss = discord.Embed(
             title=f"Screenshot of {url}",
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
 
         async with self.sessionn.get(f'https://image.thum.io/get/width/1920/crop/0/maxAge/1/noanimate/https://{url}/') as r:
             res = await r.read()
@@ -220,7 +220,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                     title=f"Weather in {weather_response['name']}, {weather_response['sys']['country']}",
                     url=f"https://openweathermap.org/city/{weather_response['id']}",
                     description=weather_response['weather'][0]['description'],
-                    colour=self.bot.colour,
+                    colour=ctx.author.colour,
                 )
                 embed.add_field(
                     name='Location:',
@@ -284,7 +284,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         else:
 
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="Last deleted message.",
                             value=f"> Sniped message: `{message.content}`"
                             + f"\n> Author: `{message.author}`")
@@ -308,7 +308,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                 msg = csn[-1]
                 bf, af = msg['before'], msg['after']
 
-                embed = discord.Embed(colour=self.bot.colour)
+                embed = discord.Embed(colour=ctx.author.colour)
                 embed.add_field(
                     name='Edit snipe',
                     value=f'> Original Message: `{bf.content}`\n > Edited Message: `{af.content}` \n > Author: `{bf.author}`')
@@ -325,7 +325,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         """
         Get info on the bots ping.
         """
-        embed = discord.Embed(colour=self.bot.colour)
+        embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(
             name="<:server:783423084199280720> Server",
             value=f'```autohotkey\n{round(self.bot.latency * 1000)} ms```')
@@ -379,7 +379,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                           ctx.guild.default_role] or ['`No roles.`'])
 
         embed = discord.Embed(
-            colour=self.bot.colour,
+            colour=ctx.author.colour,
             timestamp=ctx.message.created_at,
             title=f"User Info")
         embed.set_footer(
@@ -412,7 +412,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         bots = sum(m.bot for m in ctx.guild.members)
         members = all_mem - bots
 
-        embed = discord.Embed(title='Server info', colour=self.bot.colour)
+        embed = discord.Embed(title='Server info', colour=ctx.author.colour)
         embed.add_field(
             name='Owner info',
             value=f'Owner: `{ctx.guild.owner}` \nOwner ID: `{ctx.guild.owner.id}`')
@@ -437,7 +437,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         embed = discord.Embed(
             title=f'Info',
             description=f'A few things to know! Made by Elite#1296',
-            colour=self.bot.colour)
+            colour=ctx.author.colour)
         embed.add_field(
             name='<:cog:780007481216204820> Bot stats',
             value=f"Server count: {len(self.bot.guilds)} \nMembers: {len(self.bot.users)}",

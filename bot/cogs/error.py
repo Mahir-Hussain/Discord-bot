@@ -66,43 +66,43 @@ class Error(commands.Cog):
         elif isinstance(error, commands.MaxConcurrencyReached):
             embed = discord.Embed(
                 description="This commands can only be used by one user at a time.",
-                colour=self.bot.colour)
+                colour=ctx.author.colour)
             await ctx.send(embed=embed)
 
         elif isinstance(error, commands.NotOwner):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(
                 name="⚠️ | Command error!",
                 value='```This command is reserved for the owner of the bot```')
             await ctx.send(embed=embed)
 
         elif isinstance(error, commands.CommandOnCooldown):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             await ctx.send(embed=embed)
 
         elif isinstance(error, commands.MissingRequiredArgument):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             await ctx.send(embed=embed)
 
         elif isinstance(error, commands.BotMissingPermissions):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             await ctx.send(embed=embed)
 
         elif isinstance(error, commands.MissingPermissions):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             await ctx.send(embed=embed)
 
         elif isinstance(error, commands.MemberNotFound):
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             await ctx.send(embed=embed)
 
         elif ctx.author.id == 594551272468906003:
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
             embed.set_footer(
                 text=f'Guild ID: {ctx.guild.id} | Did not send to error channel as you own me :c',
@@ -110,7 +110,7 @@ class Error(commands.Cog):
             await ctx.send(embed=embed)
 
         else:
-            embed = discord.Embed(colour=self.bot.colour)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error! This has been sent to my owner.", value=f'```{error}```')
             embed.add_field(
                 name='Author:',

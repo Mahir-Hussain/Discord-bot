@@ -18,14 +18,16 @@ async def get_prefix(bot, message):
 class Resolute(commands.Bot):
     def __init__(self):
         allowed_mentions = discord.AllowedMentions(
-            roles=False, everyone=False, users=True, replied_user=False)
+            roles=False, everyone=False, users=True, replied_user=False,)
 
         super().__init__(
             command_prefix=get_prefix,
             case_insensitive=True,
             intents=discord.Intents.all(),
             allowed_mentions=allowed_mentions,
-            help_command=MyHelpCommand())
+            help_command=MyHelpCommand(),
+            activity=discord.Game(name="r. | Resolute 2022")
+            )
         self.initial_extensions = [
             'cogs.owner',
             'cogs.meta',
@@ -39,21 +41,12 @@ class Resolute(commands.Bot):
             'jishaku']
 
     async def setup_hook(self):
-        self.background_task.start()
         for cog in self.initial_extensions:
             await self.load_extension(cog)
             print(f"{cog} has been loaded")
 
     async def close(self):
         await super().close()
-
-    async def on_ready(self):
-        print("Online!")
-
-    @tasks.loop(minutes=900)
-    async def background_task(self):
-        print("")
-
 
 async def main():
     bot = Resolute()
