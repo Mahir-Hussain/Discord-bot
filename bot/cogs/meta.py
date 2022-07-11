@@ -14,7 +14,7 @@ import psutil
 
 from utils.utils import Mongodb_afks as collection
 from utils.utils import Mongodb_t as cogs_t
-
+from utils.utils import bypass_for_owner
 
 class Meta(commands.Cog, name="🤖 Meta"):
     """
@@ -55,7 +55,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         self.messages[message.channel.id] = message
 
     @commands.command()
-    @commands.cooldown(1, 10, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def google(self, ctx, *, query: str):
         """
         Google whatever you want.
@@ -83,7 +83,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["ud", "urban"])
-    @commands.cooldown(1, 5, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def urbandictionary(self, ctx, *, definition: str):
         """
         Get a urban dictionary definition of almost any word!
@@ -187,7 +187,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                     await ctx.send('The file has been deleted by a user.')
 
     @commands.command(aliases=["w"])
-    @commands.cooldown(1, 10, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def weather(self, ctx, *, city_name: str):
         """
         Get the weather of a city/town by its name.
@@ -245,7 +245,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
     @commands.command()
     @commands.guild_only()
-    @commands.cooldown(1, 20, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def afk(self, ctx, *, reason: str = 'AFK'):
         """
         Set an AFK.
@@ -270,7 +270,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             await ctx.send('This command errored. This may be due to you setting multiple afks in different servers. Issue will be fixed soon. **Notice** This error should have been fixed. If not please contact Elite#1296')
 
     @commands.command()
-    @commands.cooldown(1, 5, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def snipe(self, ctx):
         """
         Snipe the last deleted message.
@@ -362,7 +362,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         await ctx.send(" | ".join([perm for perm, val in dict(user.guild_permissions).items() if val]).replace("_", " "))
 
     @commands.command(aliases=["whois"])
-    @commands.cooldown(1, 3, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def userinfo(self, ctx, member: discord.Member = None):
         """
         This command looks at a user's profile

@@ -3,12 +3,13 @@ from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 from aiohttp import request
 
+from datetime import datetime, timezone, timedelta
 import asyncio
 import datetime
 import random
 
 from utils.utils import Mongodb_t as cogs_t
-
+from utils.utils import bypass_for_owner
 
 class Fun(commands.Cog, name="🎉 Fun"):
     """
@@ -55,7 +56,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
 
     @commands.command()
     @commands.guild_only()
-    @commands.cooldown(1, 5, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def wyr(self, ctx):
         """
         Does a random would you rather question.
@@ -101,7 +102,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         await ctx.send(f'You got {di}')
 
     @commands.command()
-    @commands.cooldown(1, 5, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     @commands.max_concurrency(1, per=BucketType.channel, wait=False)
     async def cookie(self, ctx):
         """
@@ -113,9 +114,11 @@ class Fun(commands.Cog, name="🎉 Fun"):
             "threw it!",
             "ate it.",
             "gave it to the homeless, how nice.",
+            "tripped on it, fell and died",
             "fed it to a dog",
             "choked on it, sad.",
-            "was allergic."]
+            "was allergic.",
+            "sat on it"]
         choice = random.choice(rand)
 
         m = await ctx.send(embed=discord.Embed(title="The Cookie is coming", colour=ctx.author.colour))
@@ -130,16 +133,19 @@ class Fun(commands.Cog, name="🎉 Fun"):
         await m.edit(embed=discord.Embed(title=":cookie: Grab the Cookie", colour=ctx.author.colour))
 
         await m.add_reaction("\U0001f36a")
+        time_before = datetime.datetime.utcnow()
 
         try:
             r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: str(r.emoji) == "\U0001f36a" and r.message == m and r.message.channel == ctx.channel and not u.bot, timeout=10)
         except asyncio.TimeoutError:
             await ctx.send("No one got the cookie so it rotted :(")
         else:
-            await m.edit(embed=discord.Embed(title=f"**{u}** got the cookie in {round((datetime.datetime.utcnow()-m.edited_at).total_seconds(), 3)} seconds and {choice}"))
+            time_after = datetime.datetime.utcnow()
+            time_taken = (time_after - time_before).total_seconds()
+            await m.edit(embed=discord.Embed(title=f"**{u}** got the cookie in {time_taken} seconds and {choice}"))
 
     @commands.command()
-    @commands.cooldown(1, 5, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def meme(self, ctx):
         """
         Get a random meme from reddit, you can also do r.reddit enter_subreddit to get a sub-reddit of your choice.
@@ -168,7 +174,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             await ctx.send(embed=embed)
 
     @commands.command(aliases=['r'])
-    @commands.cooldown(1, 5, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def reddit(self, ctx, subreddit: str):
         """
         Choose any sub-reddit of your choice
@@ -193,7 +199,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             await ctx.send("That may not be a valid sub-reddit, try another.")
 
     @commands.command(aliases=["rps"])
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def rockpaperscissors(self, ctx):
         """
         Play rock paper scissors with the bot!

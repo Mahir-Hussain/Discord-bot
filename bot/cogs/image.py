@@ -8,7 +8,7 @@ import io
 
 from utils.image import dagpi_img
 from utils.utils import Mongodb_t as cogs_t
-
+from utils.utils import bypass_for_owner
 
 class Image(commands.Cog, name="🖼️ Image Manipulation"):
     '''These commands change a profile picture.'''
@@ -18,7 +18,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         self.sr = sr_api.Client()
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def wanted(self, ctx, user: discord.Member = None):
         """Puts a members user avatar on a wanted poster."""
 
@@ -28,7 +28,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(content=f"{user.name} Is wanted", file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def jail(self, ctx, user: discord.Member = None):
         """Jail a user"""
 
@@ -38,7 +38,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def deepfry(self, ctx, user: discord.Member = None):
         """Deepfry an avatar."""
 
@@ -48,7 +48,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def pixelate(self, ctx, user: discord.Member = None):
         """Pixelates someones pfp"""
 
@@ -58,7 +58,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def blur(self, ctx, user: discord.Member = None):
         """Blurs a pfp"""
 
@@ -68,7 +68,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def invert(self, ctx, user: discord.Member = None):
         """Invert a pfp"""
 
@@ -78,7 +78,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def communism(self, ctx, user: discord.Member = None):
         """Add a comunism overlay to someones pfp"""
 
@@ -88,7 +88,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def trigger(self, ctx, user: discord.Member = None):
         """Trigger overlay on someones pfp"""
 
@@ -98,7 +98,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command(aliases=['colors'])
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def colours(self, ctx, user: discord.Member = None):
         """Shows you the top few colours in a persons pfp"""
 
@@ -108,7 +108,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             await ctx.send(file=img_file)
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.member)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def swirl(self, ctx, user: discord.Member = None):
         """Swirl a pfp"""
 

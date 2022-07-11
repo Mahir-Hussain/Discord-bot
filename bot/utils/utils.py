@@ -3,15 +3,14 @@ from discord.ext import commands
 
 import os
 
-def bypass_for_owner(message):
-    if message.author.id == 594551272468906003:
-        return None
-    return commands.Cooldown(1, 10)
-
 cluster = motor.AsyncIOMotorClient(
     os.environ["database"])
 db = cluster["resolute"]
 
+def bypass_for_owner(message):
+    if message.author.id == 594551272468906003:
+        return None
+    return commands.Cooldown(1, 10)
 
 async def Mongodb_t(mt: str, find: str):
     """

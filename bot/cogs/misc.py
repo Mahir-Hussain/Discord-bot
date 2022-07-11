@@ -6,8 +6,7 @@ import os
 import discord
 import humanize
 
-from utils.utils import Mongodb_t as cogs_t
-
+from utils.utils import bypass_for_owner
 
 class Misc(commands.Cog, name="🔨 Misc"):
     """
@@ -51,7 +50,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             pass
 
     @commands.command()
-    @commands.cooldown(1, 100, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def poll(self, ctx, title, *options):
         """
         Make a poll. Up to 10 options.
@@ -161,11 +160,10 @@ class Misc(commands.Cog, name="🔨 Misc"):
         """
         Send credit's regarding the bot.
         """
-        user1 = self.bot.get_user(434734486404726785)
         embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(
             name="Credit's",
-            value=f"{user1.name} - Helped make the bot's profile picture.")
+            value=f"=anni ʚĭɞ - Made the profile picture")
         embed.set_footer(
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)

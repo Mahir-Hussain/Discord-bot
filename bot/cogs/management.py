@@ -4,7 +4,7 @@ from discord.ext.commands.cooldowns import BucketType
 
 from utils.utils import Mongodb_logs as collection
 from utils.utils import Mongodb_t as cogs_t
-
+from utils.utils import bypass_for_owner
 
 class Management(commands.Cog, name="⚔️ Management"):
     def __init__(self, bot):
@@ -26,7 +26,7 @@ class Management(commands.Cog, name="⚔️ Management"):
         await channel.send(f"I have deleted `{len(deleted)}` messages.", delete_after=10)
 
     @commands.command()
-    @commands.cooldown(1, 180, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def logs(self, ctx):
         """
         Shows what log types have been activated
@@ -44,7 +44,7 @@ class Management(commands.Cog, name="⚔️ Management"):
     @commands.command()
     @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
-    @commands.cooldown(1, 120, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def emoji_logging_set(self, ctx, channel: discord.TextChannel):
         """
         Start logging added emojis to messages
@@ -65,7 +65,7 @@ class Management(commands.Cog, name="⚔️ Management"):
     @commands.command()
     @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
-    @commands.cooldown(1, 120, BucketType.user)
+    @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def emoji_logging_remove(self, ctx):
         """
         Remove logging added emojis to messages
@@ -95,7 +95,7 @@ class Management(commands.Cog, name="⚔️ Management"):
                 if (reaction.message.guild.id) == guild:
                     if emoji == "emoji":
 
-                        embed = discord.Embed(colour=ctx.author.colour)
+                        embed = discord.Embed(colour=0xFFFFFF)
                         embed.add_field(
                             name="Reaction removed",
                             value=f"""> Emoji content sent: {reaction.emoji} \n> Emoji author: `{user}`""")
