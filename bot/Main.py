@@ -26,7 +26,7 @@ class Resolute(commands.Bot):
             intents=discord.Intents.all(),
             allowed_mentions=allowed_mentions,
             help_command=MyHelpCommand(),
-            activity=discord.Game(name="r. | Resolute 2022")
+            activity=discord.Game(name="r. | Resolute 2022"),
             )
         self.initial_extensions = [
             'cogs.owner',
@@ -50,12 +50,11 @@ class Resolute(commands.Bot):
 
 async def main():
     bot = Resolute()
-    async with aiohttp.ClientSession() as session:
-        async with bot:
-            bot.session = session
-            os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-            os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
-            os.environ["JISHAKU_HIDE"] = "True"
-            await bot.start(os.environ["BOT_TOKEN"])
+    async with bot:
+        bot.session = aiohttp.ClientSession()
+        os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+        os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True"
+        os.environ["JISHAKU_HIDE"] = "True"
+        await bot.start(os.environ["BOT_TOKEN"])
 
 asyncio.run(main())

@@ -37,7 +37,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
         if shards:
             data['shard_count'] = shards
 
-        response = await self.session.post(
+        response = await self.bot.session.post(
             url=url,
             headers=self.headers,
             data=data
@@ -116,7 +116,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
 
         params = dict(userId=member.id)
 
-        response = await self.session.get(
+        response = await self.bot.session.get(
             url=url,
             headers=self.headers,
             params=params

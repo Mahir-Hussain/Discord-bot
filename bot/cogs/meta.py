@@ -93,7 +93,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         if " " in definition:
             definition = definition.replace(" ", "-")
-        async with self.sessionn.get("http://api.urbandictionary.com/v0/define?term=" + definition) as response:
+        async with self.bot.session.get("http://api.urbandictionary.com/v0/define?term=" + definition) as response:
 
             if response.status != 200:
                 return await ctx.send("Couldn't find that word.")
@@ -164,7 +164,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             title=f"Screenshot of {url}",
             colour=ctx.author.colour)
 
-        async with self.sessionn.get(f'https://image.thum.io/get/width/1920/crop/0/maxAge/1/noanimate/https://{url}/') as r:
+        async with self.bot.session.get(f'https://image.thum.io/get/width/1200/crop/0/maxAge/1/noanimate/https://{url}/') as r:
             res = await r.read()
             ss.set_image(url="attachment://webreq.png")
             end = time.perf_counter()
@@ -174,17 +174,17 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
             file_ss = await ctx.send(file=discord.File(io.BytesIO(res), filename="webreq.png"), embed=ss)
             await file_ss.add_reaction("\U0001f6ae")
-            await asyncio.sleep(1)
+
+            def check(reaction, user):
+                return reaction.message.id == file_ss.id and str(reaction.emoji) == "\U0001f6ae"
 
             try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout=120.0)
+                await self.bot.wait_for("reaction_add", timeout=120, check=check)
+                await file_ss.delete()
+                await ctx.send("The screenshot has been deleted by a user")
             except asyncio.TimeoutError:
                 await file_ss.delete()
-                return
-            else:
-                if str(reaction.emoji) == "\U0001f6ae":
-                    await file_ss.delete()
-                    await ctx.send('The file has been deleted by a user.')
+                await ctx.send("The screenshot has been deleted after the timeout")
 
     @commands.command(aliases=["w"])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -196,7 +196,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         url = "http://api.openweathermap.org/data/2.5/weather?q=" + \
             city_name + f"&appid={os.environ['weather']}&units=metric"
 
-        async with self.session.get(url) as response:
+        async with self.bot.session.get(url) as response:
             weather_response = await response.json()
 
             if weather_response['cod'] != 200:

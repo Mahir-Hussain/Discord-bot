@@ -79,7 +79,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         """
         Sends a random fact.
         """
-        async with self.session.get("https://uselessfacts.jsph.pl/random.json?language=en") as r:
+        async with self.bot.session.get("https://uselessfacts.jsph.pl/random.json?language=en") as r:
             data = await r.json()
             fact = data["text"]
 
@@ -128,9 +128,9 @@ class Fun(commands.Cog, name="🎉 Fun"):
         await m.edit(embed=discord.Embed(title="The Cookie is coming in 2", colour=ctx.author.colour))
         await asyncio.sleep(1)
         await m.edit(embed=discord.Embed(title="The Cookie is coming in 1", colour=ctx.author.colour))
-        random_time = random.randint(1, 5)
+        random_time = random.randint(0, 3)
         await asyncio.sleep(random_time)
-        await m.edit(embed=discord.Embed(title=":cookie: Grab the Cookie", colour=ctx.author.colour))
+        await m.edit(embed=discord.Embed(title=":cookie: Grab the Cookie!", colour=ctx.author.colour))
 
         await m.add_reaction("\U0001f36a")
         time_before = datetime.datetime.utcnow()
@@ -157,7 +157,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
                   'funny'
                   ]
         sub = random.choice(reddit)
-        async with self.session.get('https://meme-api.herokuapp.com/gimme/' + sub) as resp:
+        async with self.bot.session.get('https://meme-api.herokuapp.com/gimme/' + sub) as resp:
             resp = await resp.json()
 
         if resp['nsfw'] and not ctx.channel.is_nsfw():
@@ -180,7 +180,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         Choose any sub-reddit of your choice
         """
         try:
-            async with self.session.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}") as resp:
+            async with self.bot.session.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}") as resp:
                 resp = await resp.json()
 
             if resp['nsfw'] and not ctx.channel.is_nsfw():
