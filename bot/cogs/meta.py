@@ -176,7 +176,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             await file_ss.add_reaction("\U0001f6ae")
 
             def check(reaction, user):
-                return reaction.message.id == file_ss.id and str(reaction.emoji) == "\U0001f6ae"
+                return reaction.message.id == file_ss.id and str(reaction.emoji) == "\U0001f6ae" and user.bot is False
 
             try:
                 await self.bot.wait_for("reaction_add", timeout=120, check=check)
