@@ -7,7 +7,6 @@ from asyncdagpi import ImageFeatures
 import io
 
 from utils.image import dagpi_img
-from utils.utils import Mongodb_t as cogs_t
 from utils.utils import bypass_for_owner
 
 class Image(commands.Cog, name="🖼️ Image Manipulation"):

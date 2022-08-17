@@ -21,7 +21,6 @@ from functools import partial
 import discord
 from async_timeout import timeout
 from discord.ext import commands
-from utils.utils import Mongodb_t as cogs_t
 from youtube_dl import YoutubeDL
 
 ytdlopts = {
@@ -209,15 +208,6 @@ class Music(commands.Cog, name="🎧 Music"):
     def __init__(self, bot):
         self.bot = bot
         self.players = {}
-
-    async def cog_after_invoke(self, ctx):
-        data = await cogs_t(mt="find_one", find=str(ctx.guild.id) + ctx.command.cog_name)
-        if data:
-            cog_name = data.get("cog")
-            if cog_name == ctx.command.cog_name:
-                return False
-            return True
-        return True
 
     async def cleanup(self, guild):
         try:

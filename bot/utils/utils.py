@@ -12,20 +12,6 @@ def bypass_for_owner(message):
         return None
     return commands.Cooldown(1, 10)
 
-async def Mongodb_t(mt: str, find: str):
-    """
-    Acess the Mongo DB for cog highlights
-    """
-    collection = db["cogs"]
-    if mt == "find_one":
-        found = await collection.find_one({'_id': find})
-        return found
-    elif mt == "delete_one":
-        await collection.delete_one({'_id': find})
-    elif mt == "insert_one":
-        await collection.insert_one(find)
-
-
 async def Mongodb_afks(mt: str, find: int):
     """
     Access the Mongo DB for afks.

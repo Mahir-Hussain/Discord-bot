@@ -13,7 +13,6 @@ import os
 import psutil
 
 from utils.utils import Mongodb_afks as collection
-from utils.utils import Mongodb_t as cogs_t
 from utils.utils import bypass_for_owner
 
 class Meta(commands.Cog, name="🤖 Meta"):
@@ -250,24 +249,16 @@ class Meta(commands.Cog, name="🤖 Meta"):
         """
         Set an AFK.
         """
-        try:
-            time = str(ctx.message.created_at).split(
-                ' ')[1].replace(':', '').replace('.', '')
-            finaltime = round(int(time) / 100000000)
+        await ctx.send(f'{ctx.author.mention}, I have successfully marked your **AFK** as: {reason}')
+        await asyncio.sleep(15)
 
-            await ctx.send(f'{ctx.author.mention}, I have successfully marked your **AFK** as: {reason}')
-            await asyncio.sleep(15)
-
-            post = {
-                "_id": ctx.author.id + ctx.guild.id,
-                "name": str(
-                    ctx.author),
-                "message": reason,
-                "guild": ctx.guild.id,
-                "time": finaltime}
-            await collection(mt="insert_one", find=post)
-        except Exception:
-            await ctx.send('This command errored. This may be due to you setting multiple afks in different servers. Issue will be fixed soon. **Notice** This error should have been fixed. If not please contact Elite#1296')
+        post = {
+            "_id": ctx.author.id + ctx.guild.id,
+            "name": str(
+                ctx.author),
+            "message": reason,
+            "guild": ctx.guild.id}
+        await collection(mt="insert_one", find=post)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)

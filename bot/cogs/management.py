@@ -3,7 +3,6 @@ from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 
 from utils.utils import Mongodb_logs as collection
-from utils.utils import Mongodb_t as cogs_t
 from utils.utils import bypass_for_owner
 
 class Management(commands.Cog, name="⚔️ Management"):

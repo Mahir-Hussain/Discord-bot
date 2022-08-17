@@ -1,14 +1,12 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
-from aiohttp import request
 
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 import asyncio
 import datetime
 import random
 
-from utils.utils import Mongodb_t as cogs_t
 from utils.utils import bypass_for_owner
 
 class Fun(commands.Cog, name="🎉 Fun"):
