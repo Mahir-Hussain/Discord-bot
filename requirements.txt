@@ -1,5 +1,6 @@
 discord.py
 git+https://github.com/Rapptz/discord-ext-menus
+beautifulsoup4==4.10.0
 jishaku
 motor
 asyncdagpi
