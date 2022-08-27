@@ -34,7 +34,6 @@ class Resolute(commands.Bot):
             'cogs.management',
             'cogs.fun',
             'cogs.image',
-            'cogs.music',
             'cogs.misc',
             'cogs.error',
             'cogs.events',
