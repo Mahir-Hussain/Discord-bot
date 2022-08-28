@@ -24,7 +24,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.wanted())
-            await ctx.send(content=f"{user.name} Is wanted", file=img_file)
+            await ctx.reply(content=f"{user.name} Is wanted", file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -34,7 +34,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.jail())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -44,7 +44,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.deepfry())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -54,7 +54,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.pixel())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -64,7 +64,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.blur())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -74,7 +74,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.invert())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -84,7 +84,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.communism())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -94,7 +94,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.triggered())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command(aliases=['colors'])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -104,7 +104,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.colors())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -114,7 +114,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
         async with ctx.typing():
             user = user or ctx.author
             img_file = await dagpi_img(user, ImageFeatures.swirl())
-            await ctx.send(file=img_file)
+            await ctx.reply(file=img_file)
 
     @commands.command()
     async def rgb(self, ctx, user: discord.Member = None):
@@ -124,9 +124,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             try:
                 user = user or ctx.author
                 img_file = await dagpi_img(user, ImageFeatures.hog())
-                await ctx.send(file=img_file)
+                await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.send('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
 
     @commands.command()
     async def night(self, ctx, user: discord.Member = None):
@@ -136,9 +136,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             try:
                 user = user or ctx.author
                 img_file = await dagpi_img(user, ImageFeatures.night())
-                await ctx.send(file=img_file)
+                await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.send('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
 
     @commands.command()
     async def rainbow(self, ctx, user: discord.Member = None):
@@ -148,9 +148,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             try:
                 user = user or ctx.author
                 img_file = await dagpi_img(user, ImageFeatures.rainbow())
-                await ctx.send(file=img_file)
+                await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.send('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
 
     @commands.command()
     async def america(self, ctx, user: discord.Member = None):
@@ -160,9 +160,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             try:
                 user = user or ctx.author
                 img_file = await dagpi_img(user, ImageFeatures.america())
-                await ctx.send(file=img_file)
+                await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.send('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
 
     @commands.command()
     async def wasted(self, ctx, user: discord.Member = None):
@@ -172,9 +172,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             try:
                 user = user or ctx.author
                 img_file = await dagpi_img(user, ImageFeatures.wasted())
-                await ctx.send(file=img_file)
+                await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.send('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
 
     @commands.command()
     async def youtube(self, ctx, member: discord.Member = None, *, comments: str):
@@ -197,7 +197,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
 
             file = discord.File(io.BytesIO(await image.read()), filename="ytcomment.png")
 
-            await ctx.send(embed=embed, file=file)
+            await ctx.reply(embed=embed, file=file)
 
 
 async def setup(bot):

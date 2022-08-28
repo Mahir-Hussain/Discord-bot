@@ -23,7 +23,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         Say any message through the bot.
         """
-        await ctx.send(text)
+        await ctx.reply(text)
 
         try:
             await ctx.message.delete()
@@ -36,14 +36,10 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         DM someone
         """
         embed = discord.Embed(colour=ctx.author.colour)
-        embed.set_author(name=f"Sent from {ctx.author}",
-                         icon_url=ctx.author.avatar)
-        embed.add_field(name="Message:", value=f'{content}')
-        embed.set_footer(text="Resolute |")
+        embed.add_field(name="You have received a message", value=f"{content}")
+        embed.set_footer(text=f"Resolute | From {ctx.author}")
         await user.send(embed=embed)
-        await ctx.reply(
-            f'<:ADeliteTick:741313902868168715> Message sent to {user}'
-        )
+        await ctx.reply(f'<:TickSomeColour:780469518010155109> Message sent to {user}')
 
     @commands.command()
     async def status(self, ctx, type, *, status=None):
@@ -66,7 +62,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
             a = f"{x.name}, {x.id}\n"
 
         paste = await self.bot.mystbin_client.post(a, syntax="python")
-        await ctx.send(paste)
+        await ctx.reply(paste)
 
     @commands.command()
     async def get_invite(self, ctx, ids: int):
@@ -139,7 +135,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         ctx.author.colour = int(new, 16)
 
         embed = discord.Embed(colour=ctx.author.colour)
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
 
 async def setup(bot):

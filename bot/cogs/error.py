@@ -28,7 +28,7 @@ class Error(commands.Cog):
                 matches = difflib.get_close_matches(failed_command, cmd_list)
                 if not matches:
                     return
-                reinvoke = await ctx.send(f"Command '{failed_command}' was not found. Did you mean `{matches[0]}`?")
+                reinvoke = await ctx.reply(f"Command '{failed_command}' was not found. Did you mean `{matches[0]}`?")
                 await reinvoke.add_reaction('<:TickSomeColour:780469518010155109>')
                 await reinvoke.add_reaction('<:XSomeColour:784146174163681310>')
 
@@ -47,15 +47,15 @@ class Error(commands.Cog):
                         await reinvoke.delete()
                         try:
                             if matches[0] == "help":
-                                await ctx.send_help()
+                                await ctx.reply_help()
                             else:
                                 command = self.bot.get_command(matches[0])
                                 if await command.can_run(ctx):
                                     await command(ctx)
                                 else:
-                                    await ctx.send("You do not have the correct permissions to run this command.")
+                                    await ctx.reply("You do not have the correct permissions to run this command.")
                         except Exception:
-                            await ctx.send("Something went wrong, you will have to invoke the command youself. You may not have permission.")
+                            await ctx.reply("Something went wrong, you will have to invoke the command youself. You may not have permission.")
                     if str(
                             reaction.emoji) == "<:XSomeColour:784146174163681310>":
                         await reinvoke.delete()
@@ -67,39 +67,39 @@ class Error(commands.Cog):
             embed = discord.Embed(
                 description="This commands can only be used by one user at a time.",
                 colour=ctx.author.colour)
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif isinstance(error, commands.NotOwner):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(
                 name="⚠️ | Command error!",
                 value='```This command is reserved for the owner of the bot```')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif isinstance(error, commands.CommandOnCooldown):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif isinstance(error, commands.BotMissingPermissions):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif isinstance(error, commands.MemberNotFound):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="⚠️ | Command error!", value=f'```{error}```')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         elif ctx.author.id == 594551272468906003:
             embed = discord.Embed(colour=ctx.author.colour)
@@ -107,7 +107,7 @@ class Error(commands.Cog):
             embed.set_footer(
                 text=f'Guild ID: {ctx.guild.id} | Did not send to error channel as you own me :c',
                 icon_url=ctx.author.avatar)
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         else:
             embed = discord.Embed(colour=ctx.author.colour)
@@ -127,7 +127,7 @@ class Error(commands.Cog):
             embed.set_footer(
                 text=f'Guild ID: {ctx.guild.id}',
                 icon_url=ctx.author.avatar)
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
             error_channel = self.bot.get_channel(796767809186299934)
             await error_channel.send(embed=embed)

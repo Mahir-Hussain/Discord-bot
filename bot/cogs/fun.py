@@ -29,7 +29,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             description=(
                 random.choice(choices)),
             colour=(ctx.author.colour))
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command(name='8ball')
     @commands.guild_only()
@@ -50,7 +50,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             title=f"You asked 8ball: {question}",
             description=f'Answer: `{random.choice(choices)}`',
             colour=ctx.author.colour)
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command()
     @commands.guild_only()
@@ -69,7 +69,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             l.append(a)
         l.append(m[i + 1])
         o = random.choice(l)
-        await ctx.send(o)
+        await ctx.reply(o)
         s.close()
 
     @commands.command()
@@ -87,7 +87,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command()
     @commands.guild_only()
@@ -97,7 +97,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         """
         num = [1, 2, 3, 4, 5, 6]
         di = random.choice(num)
-        await ctx.send(f'You got {di}')
+        await ctx.reply(f'You got {di}')
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -119,7 +119,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             "sat on it"]
         choice = random.choice(rand)
 
-        m = await ctx.send(embed=discord.Embed(title="The Cookie is coming", colour=ctx.author.colour))
+        m = await ctx.reply(embed=discord.Embed(title="The Cookie is coming", colour=ctx.author.colour))
         await asyncio.sleep(3)
         await m.edit(embed=discord.Embed(title="The Cookie is coming in 3", colour=ctx.author.colour))
         await asyncio.sleep(1)
@@ -136,7 +136,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         try:
             r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: str(r.emoji) == "\U0001f36a" and r.message == m and r.message.channel == ctx.channel and not u.bot, timeout=10)
         except asyncio.TimeoutError:
-            await ctx.send("No one got the cookie so it rotted :(")
+            await ctx.reply("No one got the cookie so it rotted :(")
         else:
             time_after = datetime.datetime.utcnow()
             time_taken = (time_after - time_before).total_seconds()
@@ -159,7 +159,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             resp = await resp.json()
 
         if resp['nsfw'] and not ctx.channel.is_nsfw():
-            return await ctx.send("⚠️ | This meme is marked as NSFW and I can't post it in a non-nsfw channel.")
+            return await ctx.reply("⚠️ | This meme is marked as NSFW and I can't post it in a non-nsfw channel.")
         else:
             embed = discord.Embed(
                 title=f"{resp['title']} by u/{resp['author']}",
@@ -169,7 +169,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             embed.set_footer(
                 text=f"r/{sub} | Requested by {ctx.author}",
                 icon_url=ctx.author.avatar)
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
     @commands.command(aliases=['r'])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -182,7 +182,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
                 resp = await resp.json()
 
             if resp['nsfw'] and not ctx.channel.is_nsfw():
-                return await ctx.send("⚠️ | This meme is marked as NSFW and I can't post it in a non-nsfw channel.")
+                return await ctx.reply("⚠️ | This meme is marked as NSFW and I can't post it in a non-nsfw channel.")
             else:
                 embed = discord.Embed(
                     title=f"{resp['title']} by u/{resp['author']}",
@@ -192,9 +192,9 @@ class Fun(commands.Cog, name="🎉 Fun"):
                 embed.set_footer(
                     text=f"r/{subreddit} | Requested by {ctx.author}",
                     icon_url=ctx.author.avatar)
-                await ctx.send(embed=embed)
+                await ctx.reply(embed=embed)
         except KeyError:
-            await ctx.send("That may not be a valid sub-reddit, try another.")
+            await ctx.reply("That may not be a valid sub-reddit, try another.")
 
     @commands.command(aliases=["rps"])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -205,7 +205,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
         options = f"What's your choice {ctx.author}? Rock, Paper or Scissors..."
         embed = discord.Embed(title=options, colour=ctx.author.colour)
 
-        msg = await ctx.send(embed=embed)
+        msg = await ctx.reply(embed=embed)
 
         # Rock  # Paper  # Scissors
         emojis = ["\U0001faa8", "\U0001f4f0", "\U00002702"]
@@ -280,7 +280,7 @@ class Fun(commands.Cog, name="🎉 Fun"):
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
 
 async def setup(bot):

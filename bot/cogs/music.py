@@ -82,7 +82,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
             # take first item from a playlist
             data = data['entries'][0]
 
-        await ctx.send(f'```ini\n[Added {data["title"]} to the Queue.]\n```', delete_after=15)
+        await ctx.reply(f'```ini\n[Added {data["title"]} to the Queue.]\n```', delete_after=15)
 
         if download:
             source = ytdl.prepare_filename(data)
@@ -230,11 +230,11 @@ class Music(commands.Cog, name="🎧 Music"):
         """A local error handler for all errors arising from commands in this cog."""
         if isinstance(error, commands.NoPrivateMessage):
             try:
-                return await ctx.send('This command can not be used in Private Messages.')
+                return await ctx.reply('This command can not be used in Private Messages.')
             except discord.HTTPException:
                 pass
         elif isinstance(error, InvalidVoiceChannel):
-            await ctx.send('Error connecting to Voice Channel. '
+            await ctx.reply('Error connecting to Voice Channel. '
                            'Please make sure you are in a valid channel or provide me with one')
 
         print(
@@ -289,7 +289,7 @@ class Music(commands.Cog, name="🎧 Music"):
                 raise VoiceConnectionError(
                     f'Connecting to channel: <{channel}> timed out.')
 
-        await ctx.send(f'Connected to: **{channel}**', delete_after=20)
+        await ctx.reply(f'Connected to: **{channel}**', delete_after=20)
 
     @commands.command(name='play')
     async def play_(self, ctx, *, search: str):
@@ -320,12 +320,12 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_playing():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            return await ctx.reply('I am not currently playing anything!', delete_after=20)
         elif vc.is_paused():
             return
 
         vc.pause()
-        await ctx.send(f'**`{ctx.author}`**: Paused the song!')
+        await ctx.reply(f'**`{ctx.author}`**: Paused the song!')
 
     @commands.command(name='resume')
     async def resume_(self, ctx):
@@ -335,12 +335,12 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            return await ctx.reply('I am not currently playing anything!', delete_after=20)
         elif not vc.is_paused():
             return
 
         vc.resume()
-        await ctx.send(f'**`{ctx.author}`**: Resumed the song!')
+        await ctx.reply(f'**`{ctx.author}`**: Resumed the song!')
 
     @commands.command(name='skip')
     async def skip_(self, ctx):
@@ -350,7 +350,7 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            return await ctx.reply('I am not currently playing anything!', delete_after=20)
 
         if vc.is_paused():
             pass
@@ -358,7 +358,7 @@ class Music(commands.Cog, name="🎧 Music"):
             return
 
         vc.stop()
-        await ctx.send(f'**`{ctx.author}`**: Skipped the song!')
+        await ctx.reply(f'**`{ctx.author}`**: Skipped the song!')
 
     @commands.command(name='queue', aliases=['q', 'playlist'])
     async def queue_info(self, ctx):
@@ -368,11 +368,11 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently connected to voice!', delete_after=20)
+            return await ctx.reply('I am not currently connected to voice!', delete_after=20)
 
         player = self.get_player(ctx)
         if player.queue.empty():
-            return await ctx.send('There are currently no more queued songs.')
+            return await ctx.reply('There are currently no more queued songs.')
 
         # Grab up to 5 entries from the queue...
         upcoming = list(itertools.islice(player.queue._queue, 0, 5))
@@ -382,7 +382,7 @@ class Music(commands.Cog, name="🎧 Music"):
             title=f'Upcoming - Next {len(upcoming)}',
             description=fmt)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command(name='now_playing', aliases=['np', 'currentsong'])
     async def now_playing_(self, ctx):
@@ -392,11 +392,11 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently connected to voice!', delete_after=20)
+            return await ctx.reply('I am not currently connected to voice!', delete_after=20)
 
         player = self.get_player(ctx)
         if not player.current:
-            return await ctx.send('I am not currently playing anything!')
+            return await ctx.reply('I am not currently playing anything!')
 
         try:
             # Remove our previous now_playing message.
@@ -404,7 +404,7 @@ class Music(commands.Cog, name="🎧 Music"):
         except discord.HTTPException:
             pass
 
-        player.np = await ctx.send(f'**Now Playing:** `{vc.source.title}` '
+        player.np = await ctx.reply(f'**Now Playing:** `{vc.source.title}` '
                                    f'requested by `{vc.source.requester}`')
 
     @commands.command(name='volume', aliases=['vol'])
@@ -416,10 +416,10 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently connected to voice!', delete_after=20)
+            return await ctx.reply('I am not currently connected to voice!', delete_after=20)
 
         if not 0 < vol < 101:
-            return await ctx.send('Please enter a value between 1 and 100.')
+            return await ctx.reply('Please enter a value between 1 and 100.')
 
         player = self.get_player(ctx)
 
@@ -427,7 +427,7 @@ class Music(commands.Cog, name="🎧 Music"):
             vc.source.volume = vol / 100
 
         player.volume = vol / 100
-        await ctx.send(f'**`{ctx.author}`**: Set the volume to **{vol}%**')
+        await ctx.reply(f'**`{ctx.author}`**: Set the volume to **{vol}%**')
 
     @commands.command(name='leave')
     async def stop_(self, ctx):
@@ -437,7 +437,7 @@ class Music(commands.Cog, name="🎧 Music"):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send('I am not currently playing anything!', delete_after=20)
+            return await ctx.reply('I am not currently playing anything!', delete_after=20)
 
         await self.cleanup(ctx.guild)
 

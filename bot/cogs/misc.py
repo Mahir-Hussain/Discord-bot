@@ -82,7 +82,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             await ctx.channel.purge(limit=1)
         except BaseException:
             pass
-        msg = await ctx.send(embed=embed)
+        msg = await ctx.reply(embed=embed)
         for i in range(1, len(options) + 1):
             await msg.add_reaction(reactions[i])
 
@@ -98,11 +98,11 @@ class Misc(commands.Cog, name="🔨 Misc"):
         emoji_bytes = await emoji.read()
 
         if len(ctx.guild.emojis) == ctx.guild.emoji_limit:
-            return await ctx.send("I can't add that as the server has reached its emoji limit")
+            return await ctx.reply("I can't add that as the server has reached its emoji limit")
 
         new_emoji = await ctx.guild.create_custom_emoji(name=emoji_name, image=emoji_bytes, reason=f"Responsible user: {ctx.author}")
 
-        await ctx.send(f"Successfully stolen {new_emoji} with the name `{new_emoji.name}`")
+        await ctx.reply(f"Successfully stolen {new_emoji} with the name `{new_emoji.name}`")
 
     @commands.command(aliases=['vote_check'])
     async def votecheck(self, ctx, member: discord.Member = None):
@@ -123,13 +123,13 @@ class Misc(commands.Cog, name="🔨 Misc"):
         )
 
         if response.status != 200:
-            return await ctx.send("Received code {}: {}".format(response.status, response.reason))
+            return await ctx.reply("Received code {}: {}".format(response.status, response.reason))
 
         data = await response.json()
         voted = bool(data['voted'])
         status = 'has' if voted else 'has not'
 
-        return await ctx.send("{} {} voted!".format(member.display_name, status))
+        return await ctx.reply("{} {} voted!".format(member.display_name, status))
 
     @commands.command(aliases=['vote'])
     async def invite(self, ctx):
@@ -141,7 +141,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             url="https://top.gg/bot/769137475942613023",
             colour=ctx.author.colour)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command()
     async def source(self, ctx):
@@ -153,7 +153,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             name='Source',
             value="Don't mind the mess, this code is quite old and will be improved !https://github.com/LtCustard/Resolute/")
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command()
     async def credits(self, ctx):
@@ -168,7 +168,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command()
     async def support(self, ctx):
@@ -180,7 +180,7 @@ class Misc(commands.Cog, name="🔨 Misc"):
             description='[Invite](https://discord.gg/jpVmkbbnBE)',
             colour=ctx.author.colour)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
 
 async def setup(bot):

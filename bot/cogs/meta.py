@@ -79,7 +79,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             embed_list.append(embed)
 
         await cse.close()
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command(aliases=["ud", "urban"])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -88,19 +88,19 @@ class Meta(commands.Cog, name="🤖 Meta"):
         Get a urban dictionary definition of almost any word!
         """
         if len(definition) == 0:
-            return await ctx.send("You need to send the word that you want defined")
+            return await ctx.reply("You need to send the word that you want defined")
 
         if " " in definition:
             definition = definition.replace(" ", "-")
         async with self.bot.session.get("http://api.urbandictionary.com/v0/define?term=" + definition) as response:
 
             if response.status != 200:
-                return await ctx.send("Couldn't find that word.")
+                return await ctx.reply("Couldn't find that word.")
 
             data = await response.json()
 
             if not data["list"]:
-                return await ctx.send("There were no results for that look up.")
+                return await ctx.reply("There were no results for that look up.")
 
         word = data["list"][0]["word"]
         author = data["list"][0]["author"]
@@ -109,7 +109,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         perma_link = data["list"][0]["permalink"]
 
         if len(definition) > 1024 or len(example) > 1024:
-            return await ctx.send("The lookup for this word is way too big to show.")
+            return await ctx.reply("The lookup for this word is way too big to show.")
 
         embed = discord.Embed(
             title=f"Definition of {word}",
@@ -123,7 +123,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         embed.add_field(name="Definition:", value=definition, inline=False)
         embed.add_field(name="Example:", value=example, inline=False)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command(aliases=["df", "define"])
     async def dictionary(self, ctx, definition: str):
@@ -132,7 +132,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         You can get an urban definition from the command `urban <definition`.
         """
         if len(definition) == 0:
-            return await ctx.send("You need to send the word that you want defined")
+            return await ctx.reply("You need to send the word that you want defined")
         dictionary = PyDictionary()
         meaning = dictionary.meaning(definition)
         meaning = '\n\n'.join(
@@ -147,9 +147,9 @@ class Meta(commands.Cog, name="🤖 Meta"):
             icon_url=ctx.author.avatar,
         )
         try:
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
         except Exception:
-            await ctx.send('Too big to show.')
+            await ctx.reply('Too big to show.')
 
     @commands.command(aliases=["ss"])
     async def screenshot(self, ctx, url):
@@ -157,7 +157,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         Takes a screenshot of any site.
         """
         start = time.perf_counter()
-        await ctx.send('This may take some time.')
+        await ctx.reply('This may take some time.')
 
         ss = discord.Embed(
             title=f"Screenshot of {url}",
@@ -171,7 +171,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                 text=f"Requested by {ctx.author.name} | Image fetched in {round((end - start) * 1000)} ms",
                 icon_url=ctx.author.avatar)
 
-            file_ss = await ctx.send(file=discord.File(io.BytesIO(res), filename="webreq.png"), embed=ss)
+            file_ss = await ctx.reply(file=discord.File(io.BytesIO(res), filename="webreq.png"), embed=ss)
             await file_ss.add_reaction("\U0001f6ae")
 
             def check(reaction, user):
@@ -180,10 +180,10 @@ class Meta(commands.Cog, name="🤖 Meta"):
             try:
                 await self.bot.wait_for("reaction_add", timeout=120, check=check)
                 await file_ss.delete()
-                await ctx.send("The screenshot has been deleted by a user")
+                await ctx.reply("The screenshot has been deleted by a user")
             except asyncio.TimeoutError:
                 await file_ss.delete()
-                await ctx.send("The screenshot has been deleted after the timeout")
+                await ctx.reply("The screenshot has been deleted after the timeout")
 
     @commands.command(aliases=["w"])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -199,7 +199,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             weather_response = await response.json()
 
             if weather_response['cod'] != 200:
-                await ctx.send(f"An error ocurred: `{weather_response['message']}`.")
+                await ctx.reply(f"An error ocurred: `{weather_response['message']}`.")
             else:
 
                 currentUnix = time.time()
@@ -240,7 +240,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                 embed.set_author(
                     name=ctx.author, icon_url=ctx.author.avatar)
 
-                await ctx.send(embed=embed)
+                await ctx.reply(embed=embed)
 
     @commands.command()
     @commands.guild_only()
@@ -249,7 +249,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         """
         Set an AFK.
         """
-        await ctx.send(f'{ctx.author.mention}, I have successfully marked your **AFK** as: {reason}')
+        await ctx.reply(f'{ctx.author.mention}, I have successfully marked your **AFK** as: {reason}')
         await asyncio.sleep(15)
 
         post = {
@@ -285,7 +285,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             try:
                 await ctx.reply(embed=embed)
             except Exception:
-                await ctx.send('Too big to show')
+                await ctx.reply('Too big to show')
 
     @commands.command(aliases=['es'])
     async def editsnipe(self, ctx):
@@ -305,7 +305,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
                     value=f'> Original Message: `{bf.content}`\n > Edited Message: `{af.content}` \n > Author: `{bf.author}`')
                 embed.set_footer(text=f'Requested by {ctx.author}',
                                  icon_url=ctx.author.avatar)
-                await ctx.send(embed=embed)
+                await ctx.reply(embed=embed)
             else:
                 await ctx.message.add_reaction('<:XSomeColour:784146174163681310>')
         else:
@@ -325,7 +325,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             icon_url=ctx.author.avatar)
 
         start = time.perf_counter()
-        message = await ctx.send("You wanted a ping?")
+        message = await ctx.reply("You wanted a ping?")
         end = time.perf_counter()
         duration = (end - start) * 1000
 
@@ -350,7 +350,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
         Check a users discord permissions.
         """
         user = user or ctx.author
-        await ctx.send(" | ".join([perm for perm, val in dict(user.guild_permissions).items() if val]).replace("_", " "))
+        await ctx.reply(" | ".join([perm for perm, val in dict(user.guild_permissions).items() if val]).replace("_", " "))
 
     @commands.command(aliases=["whois"])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -392,7 +392,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
 
         embed.set_thumbnail(url=member.avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command(aliases=['si'])
     async def serverinfo(self, ctx):
@@ -416,7 +416,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command(aliases=['about'])
     @commands.guild_only()
@@ -441,7 +441,7 @@ class Meta(commands.Cog, name="🤖 Meta"):
             text=f'Requested by {ctx.author}',
             icon_url=ctx.author.avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
 
 async def setup(bot):

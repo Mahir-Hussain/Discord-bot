@@ -33,12 +33,12 @@ class Management(commands.Cog, name="⚔️ Management"):
         if await collection(mt="find_one", find=ctx.guild.id):
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name='Emoji Logging', value='On')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
         else:
             embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name='Emoji Logging', value='Off')
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
 
     @commands.command()
     @commands.guild_only()
@@ -50,7 +50,7 @@ class Management(commands.Cog, name="⚔️ Management"):
         Permission needed: `manage guild`.
         """
         if await collection(mt="find_one", find=ctx.guild.id):
-            await ctx.send('You already have an emoji_logged channel!')
+            await ctx.reply('You already have an emoji_logged channel!')
         else:
             post = {
                 "_id": ctx.guild.id,
@@ -59,7 +59,7 @@ class Management(commands.Cog, name="⚔️ Management"):
                 "Logging_channel": channel.id}
             await collection(mt="insert_one", find=post)
 
-            await ctx.send(f'Set {channel.mention} to be the emoji-logged channel.')
+            await ctx.reply(f'Set {channel.mention} to be the emoji-logged channel.')
 
     @commands.command()
     @commands.guild_only()
@@ -75,7 +75,7 @@ class Management(commands.Cog, name="⚔️ Management"):
             try:
                 if await collection(mt="find_one", find=ctx.guild.id):
                     await collection(mt="delete_one", find=ctx.guild.id)
-                    await ctx.send('I have removed emoji-logging for the channel.')
+                    await ctx.reply('I have removed emoji-logging for the channel.')
 
             except KeyError:
                 pass
