@@ -1,6 +1,6 @@
 <div align=center>
     <h1>Resolute</h1>
-    <strong>A multi-purpose discord bot.</strong> </br>
+    <strong>A general-purpose discord bot.</strong> </br>
     </br>
 </div>
 
