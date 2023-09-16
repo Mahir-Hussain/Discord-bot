@@ -1,9 +1,8 @@
-import discord
-from discord.ext import commands
-
 import random
 import subprocess as sp
 
+import discord
+from discord.ext import commands
 from humanize import activate
 
 
@@ -39,7 +38,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         embed.add_field(name="You have received a message", value=f"{content}")
         embed.set_footer(text=f"Resolute | From {ctx.author}")
         await user.send(embed=embed)
-        await ctx.reply(f'<:TickSomeColour:780469518010155109> Message sent to {user}')
+        await ctx.reply(f"<:TickSomeColour:780469518010155109> Message sent to {user}")
 
     @commands.command()
     async def status(self, ctx, type, *, status=None):
@@ -50,7 +49,11 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         if type == "playing":
             await self.bot.change_precense(acitivity=discord.Game(name=status))
         else:
-            await self.bot.change_precense(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+            await self.bot.change_precense(
+                activity=discord.Activity(
+                    type=discord.ActivityType.watching, name=status
+                )
+            )
 
     @commands.command()
     async def guilds(self, ctx):
@@ -86,9 +89,7 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         Leave a specified Guild.
         """
-        embed = discord.Embed(
-            title=f'Leaving the guild.',
-            colour=ctx.author.colour)
+        embed = discord.Embed(title=f"Leaving the guild.", colour=ctx.author.colour)
         await ctx.reply(embed=embed)
         get_guild = self.bot.get_guild(id)
         await get_guild.leave()
@@ -106,16 +107,16 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         """
         Load a cog
         """
-        await self.bot.load_extension(f'cogs.{extension}')
-        await ctx.reply(f'`{extension}`' " loaded")
+        await self.bot.load_extension(f"cogs.{extension}")
+        await ctx.reply(f"`{extension}`" " loaded")
 
     @commands.command()
     async def unload(self, ctx, extension):  # Don't unload this cog lol
         """
         Unload a cog.
         """
-        await self.bot.unload_extension(f'cogs.{extension}')
-        await ctx.reply(f'`{extension}`' " unloaded")
+        await self.bot.unload_extension(f"cogs.{extension}")
+        await ctx.reply(f"`{extension}`" " unloaded")
 
     @commands.command()
     async def reload(self, ctx, *extension):
@@ -123,9 +124,9 @@ class Owner(commands.Cog, name="👑 Owner", command_attrs=dict(hidden=True)):
         Reload a cog.
         """
         for e in extension:
-            await self.bot.unload_extension(f'cogs.{e}')
-            await self.bot.load_extension(f'cogs.{e}')
-            await ctx.reply(f':repeat: `{e}`' " reloaded")
+            await self.bot.unload_extension(f"cogs.{e}")
+            await self.bot.load_extension(f"cogs.{e}")
+            await ctx.reply(f":repeat: `{e}`" " reloaded")
 
     @commands.command()
     async def colour(self, ctx, new):

@@ -1,9 +1,9 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
-
 from utils.utils import Mongodb_logs as collection
 from utils.utils import bypass_for_owner
+
 
 class Management(commands.Cog, name="⚔️ Management"):
     def __init__(self, bot):
@@ -22,7 +22,9 @@ class Management(commands.Cog, name="⚔️ Management"):
             return m.author == self.bot.user
 
         deleted = await channel.purge(limit=limit, check=is_bot, bulk=False)
-        await channel.send(f"I have deleted `{len(deleted)}` messages.", delete_after=10)
+        await channel.send(
+            f"I have deleted `{len(deleted)}` messages.", delete_after=10
+        )
 
     @commands.command()
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
@@ -32,12 +34,12 @@ class Management(commands.Cog, name="⚔️ Management"):
         """
         if await collection(mt="find_one", find=ctx.guild.id):
             embed = discord.Embed(colour=ctx.author.colour)
-            embed.add_field(name='Emoji Logging', value='On')
+            embed.add_field(name="Emoji Logging", value="On")
             await ctx.reply(embed=embed)
 
         else:
             embed = discord.Embed(colour=ctx.author.colour)
-            embed.add_field(name='Emoji Logging', value='Off')
+            embed.add_field(name="Emoji Logging", value="Off")
             await ctx.reply(embed=embed)
 
     @commands.command()
@@ -50,16 +52,17 @@ class Management(commands.Cog, name="⚔️ Management"):
         Permission needed: `manage guild`.
         """
         if await collection(mt="find_one", find=ctx.guild.id):
-            await ctx.reply('You already have an emoji_logged channel!')
+            await ctx.reply("You already have an emoji_logged channel!")
         else:
             post = {
                 "_id": ctx.guild.id,
                 "Author": ctx.author.id,
                 "Log_type": "emoji",
-                "Logging_channel": channel.id}
+                "Logging_channel": channel.id,
+            }
             await collection(mt="insert_one", find=post)
 
-            await ctx.reply(f'Set {channel.mention} to be the emoji-logged channel.')
+            await ctx.reply(f"Set {channel.mention} to be the emoji-logged channel.")
 
     @commands.command()
     @commands.guild_only()
@@ -71,35 +74,34 @@ class Management(commands.Cog, name="⚔️ Management"):
         Required permissions: `manage guild`.
         """
         if ctx.guild:
-
             try:
                 if await collection(mt="find_one", find=ctx.guild.id):
                     await collection(mt="delete_one", find=ctx.guild.id)
-                    await ctx.reply('I have removed emoji-logging for the channel.')
+                    await ctx.reply("I have removed emoji-logging for the channel.")
 
             except KeyError:
                 pass
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
-
         try:
-            s = await collection(mt='find_one', find=reaction.message.guild.id)
-            guild = s['_id']
-            channel = s['Logging_channel']
-            emoji = s['Log_type']
+            s = await collection(mt="find_one", find=reaction.message.guild.id)
+            guild = s["_id"]
+            channel = s["Logging_channel"]
+            emoji = s["Log_type"]
             if user.bot:
                 pass
             else:
                 if (reaction.message.guild.id) == guild:
                     if emoji == "emoji":
-
                         embed = discord.Embed(colour=0xFFFFFF)
                         embed.add_field(
                             name="Reaction removed",
-                            value=f"""> Emoji content sent: {reaction.emoji} \n> Emoji author: `{user}`""")
+                            value=f"""> Emoji content sent: {reaction.emoji} \n> Emoji author: `{user}`""",
+                        )
                         embed.set_footer(
-                            text="""This command is in the experimental phase any issues DM elite.""")
+                            text="""This command is in the experimental phase any issues DM elite."""
+                        )
 
                         log_channel = self.bot.get_channel(channel)
                         await log_channel.send(embed=embed)
@@ -108,7 +110,6 @@ class Management(commands.Cog, name="⚔️ Management"):
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-
         try:
             if await collection(mt="find_one", find=guild.id):
                 await collection(mt="delete_one", find=guild.id)

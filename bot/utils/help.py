@@ -3,15 +3,16 @@ from discord.ext import commands, menus
 
 news = "Resolute is being remastered. Some commands may not function"
 
+
 class BaseCog(commands.Cog):
     def __init__(self, bot, show_name):
         super().__init__()
         self.bot = bot
         self.show_name = show_name
-        colour = 0X00BFFF
+        colour = 0x00BFFF
+
 
 class MyPages(menus.MenuPages):
-
     def __init__(self, source, **kwargs):
         super().__init__(source=source, check_embeds=True, **kwargs)
 
@@ -26,7 +27,7 @@ class MyPages(menus.MenuPages):
 
 
 class GroupHelp(menus.ListPageSource):
-    """"
+    """ "
     Sends help for group-commands.
     """
 
@@ -40,25 +41,21 @@ class GroupHelp(menus.ListPageSource):
 
     async def format_page(self, menu, cmds):
         embed = discord.Embed(
-            title=self.title,
-            description=self.description,
-            colour=0X00BFFF
+            title=self.title, description=self.description, colour=0x00BFFF
         )
         for cmd in cmds:
-            signature = f'{self.prefix}{cmd.qualified_name} {cmd.signature}'
+            signature = f"{self.prefix}{cmd.qualified_name} {cmd.signature}"
             desc = cmd.help or cmd.brief
             embed.add_field(
-                name=signature,
-                value=desc.format(prefix=self.ctx.prefix),
-                inline=False
+                name=signature, value=desc.format(prefix=self.ctx.prefix), inline=False
             )
 
         maximum = self.get_max_pages()
         if maximum > 1:
             embed.set_author(
-                name=f"Page{menu.current_page + 1} of {maximum} ({len(self.entries)} commands)")
-        embed.set_footer(
-            text=f"{self.prefix}help to see all commands list.")
+                name=f"Page{menu.current_page + 1} of {maximum} ({len(self.entries)} commands)"
+            )
+        embed.set_footer(text=f"{self.prefix}help to see all commands list.")
         return embed
 
 
@@ -74,8 +71,9 @@ class MainHelp(menus.ListPageSource):
     async def format_page(self, menu, category):
         embed = discord.Embed(
             title="Help command",
-            description=f'\U0001f4f0 **__News__** \n> {news}',
-            color=self.ctx.author.colour)
+            description=f"\U0001f4f0 **__News__** \n> {news}",
+            color=self.ctx.author.colour,
+        )
         embed.set_footer(text=f"Use help [command] to get more info.")
         for k, v in category:
             embed.add_field(name=k, value=v, inline=False)
@@ -84,7 +82,6 @@ class MainHelp(menus.ListPageSource):
 
 
 class MyHelpCommand(commands.HelpCommand):
-
     async def get_ending_note(self):
         return f"Type r.{self.invoked_with} Use help [module] for more info on a module. \nUse help [command] for more info on a command."
 
@@ -93,7 +90,11 @@ class MyHelpCommand(commands.HelpCommand):
         for cog, cmds in mapping.items():
             if not hasattr(cog, "qualified_name"):
                 continue
-            name = "No Category" if cog is None else cog.qualified_name + f" [{len(cog.get_commands())}]"
+            name = (
+                "No Category"
+                if cog is None
+                else cog.qualified_name + f" [{len(cog.get_commands())}]"
+            )
             filtered = await self.filter_commands(cmds, sort=True)
             if filtered:
                 all_cmds = " ─ ".join(f"`{c.name}`" for c in cmds)
@@ -112,28 +113,23 @@ class MyHelpCommand(commands.HelpCommand):
         menu = MyPages(
             GroupHelp(ctx, cog, entries, prefix=prefix),
             clear_reactions_after=True,
-            timeout=30.0
+            timeout=30.0,
         )
         await menu.start(ctx)
 
     async def send_command_help(self, command):
         embed = discord.Embed(
-            title=self.get_command_signature(command),
-            colour=0X00BFFF
+            title=self.get_command_signature(command), colour=0x00BFFF
         )
         aliases = " | ".join(command.aliases)
         category = command.cog_name
         if command.aliases:
-            embed.add_field(
-                name="Aliases",
-                value=aliases,
-                inline=False
-            )
+            embed.add_field(name="Aliases", value=aliases, inline=False)
         if category:
             embed.add_field(
                 name="Category",
                 value="No category..." if not category else category,
-                inline=False
+                inline=False,
             )
         else:
             pass
@@ -158,6 +154,6 @@ class MyHelpCommand(commands.HelpCommand):
         source = GroupHelp(ctx=ctx, group=group, cmds=entries, prefix=prefix)
         menu = MyPages(source, timeout=30.0)
         await menu.start(ctx)
-    
+
     def get_command_signature(self, command: commands.Command):
         return f"r.{command.qualified_name} {command.signature}"

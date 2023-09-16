@@ -1,12 +1,11 @@
-import discord
-from discord.ext import commands, tasks
-from discord.ext.commands.cooldowns import BucketType
-
 import os
+
 import discord
 import humanize
-
+from discord.ext import commands, tasks
+from discord.ext.commands.cooldowns import BucketType
 from utils.utils import bypass_for_owner
+
 
 class Misc(commands.Cog, name="🔨 Misc"):
     """
@@ -35,13 +34,9 @@ class Misc(commands.Cog, name="🔨 Misc"):
 
         data = dict(server_count=guilds)
         if shards:
-            data['shard_count'] = shards
+            data["shard_count"] = shards
 
-        response = await self.bot.session.post(
-            url=url,
-            headers=self.headers,
-            data=data
-        )
+        response = await self.bot.session.post(url=url, headers=self.headers, data=data)
 
         if response.status != 200:
             # raise Exception(
@@ -65,19 +60,15 @@ class Misc(commands.Cog, name="🔨 Misc"):
             7: "7️⃣",
             8: "8️⃣",
             9: "9️⃣",
-            10: "🔟"}
+            10: "🔟",
+        }
         s = ""
         num = 1
         for i in options:
             s += f"{num} - {i}\n"
             num += 1
-        embed = discord.Embed(
-            title=title,
-            description=s,
-            colour=ctx.author.colour)
-        embed.set_footer(
-            text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar)
+        embed = discord.Embed(title=title, description=s, colour=ctx.author.colour)
+        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar)
         try:
             await ctx.channel.purge(limit=1)
         except BaseException:
@@ -98,13 +89,19 @@ class Misc(commands.Cog, name="🔨 Misc"):
         emoji_bytes = await emoji.read()
 
         if len(ctx.guild.emojis) == ctx.guild.emoji_limit:
-            return await ctx.reply("I can't add that as the server has reached its emoji limit")
+            return await ctx.reply(
+                "I can't add that as the server has reached its emoji limit"
+            )
 
-        new_emoji = await ctx.guild.create_custom_emoji(name=emoji_name, image=emoji_bytes, reason=f"Responsible user: {ctx.author}")
+        new_emoji = await ctx.guild.create_custom_emoji(
+            name=emoji_name, image=emoji_bytes, reason=f"Responsible user: {ctx.author}"
+        )
 
-        await ctx.reply(f"Successfully stolen {new_emoji} with the name `{new_emoji.name}`")
+        await ctx.reply(
+            f"Successfully stolen {new_emoji} with the name `{new_emoji.name}`"
+        )
 
-    @commands.command(aliases=['vote_check'])
+    @commands.command(aliases=["vote_check"])
     async def votecheck(self, ctx, member: discord.Member = None):
         """
         Checks the voting status of a specified member.
@@ -117,29 +114,30 @@ class Misc(commands.Cog, name="🔨 Misc"):
         params = dict(userId=member.id)
 
         response = await self.bot.session.get(
-            url=url,
-            headers=self.headers,
-            params=params
+            url=url, headers=self.headers, params=params
         )
 
         if response.status != 200:
-            return await ctx.reply("Received code {}: {}".format(response.status, response.reason))
+            return await ctx.reply(
+                "Received code {}: {}".format(response.status, response.reason)
+            )
 
         data = await response.json()
-        voted = bool(data['voted'])
-        status = 'has' if voted else 'has not'
+        voted = bool(data["voted"])
+        status = "has" if voted else "has not"
 
         return await ctx.reply("{} {} voted!".format(member.display_name, status))
 
-    @commands.command(aliases=['vote'])
+    @commands.command(aliases=["vote"])
     async def invite(self, ctx):
         """
         Send's the bots invite link, you can also vote using this link
         """
         embed = discord.Embed(
-            title='TOP.GG link, thanks if you vote/invite!',
+            title="TOP.GG link, thanks if you vote/invite!",
             url="https://top.gg/bot/769137475942613023",
-            colour=ctx.author.colour)
+            colour=ctx.author.colour,
+        )
 
         await ctx.reply(embed=embed)
 
@@ -150,8 +148,9 @@ class Misc(commands.Cog, name="🔨 Misc"):
         """
         embed = discord.Embed(colour=ctx.author.colour)
         embed.add_field(
-            name='Source',
-            value="Don't mind the mess, this code is quite old and will be improved !https://github.com/LtCustard/Resolute/")
+            name="Source",
+            value="Don't mind the mess, this code is quite old and will be improved !https://github.com/LtCustard/Resolute/",
+        )
 
         await ctx.reply(embed=embed)
 
@@ -161,12 +160,8 @@ class Misc(commands.Cog, name="🔨 Misc"):
         Send credit's regarding the bot.
         """
         embed = discord.Embed(colour=ctx.author.colour)
-        embed.add_field(
-            name="Credit's",
-            value=f"=anni ʚĭɞ - Made the profile picture")
-        embed.set_footer(
-            text=f'Requested by {ctx.author}',
-            icon_url=ctx.author.avatar)
+        embed.add_field(name="Credit's", value=f"=anni ʚĭɞ - Made the profile picture")
+        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar)
 
         await ctx.reply(embed=embed)
 
@@ -176,9 +171,10 @@ class Misc(commands.Cog, name="🔨 Misc"):
         If you really need help, you can join this server.
         """
         embed = discord.Embed(
-            title='Discord invite',
-            description='[Invite](https://discord.gg/jpVmkbbnBE)',
-            colour=ctx.author.colour)
+            title="Discord invite",
+            description="[Invite](https://discord.gg/jpVmkbbnBE)",
+            colour=ctx.author.colour,
+        )
 
         await ctx.reply(embed=embed)
 

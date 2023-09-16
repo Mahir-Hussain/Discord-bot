@@ -1,16 +1,16 @@
-import discord
-from discord.ext import commands
-from discord.ext.commands.cooldowns import BucketType
-import sr_api
-from asyncdagpi import ImageFeatures
-
 import io
 
+import discord
+import sr_api
+from asyncdagpi import ImageFeatures
+from discord.ext import commands
+from discord.ext.commands.cooldowns import BucketType
 from utils.image import dagpi_img
 from utils.utils import bypass_for_owner
 
+
 class Image(commands.Cog, name="🖼️ Image Manipulation"):
-    '''These commands change a profile picture.'''
+    """These commands change a profile picture."""
 
     def __init__(self, bot):
         self.bot = bot
@@ -96,7 +96,7 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
             img_file = await dagpi_img(user, ImageFeatures.triggered())
             await ctx.reply(file=img_file)
 
-    @commands.command(aliases=['colors'])
+    @commands.command(aliases=["colors"])
     @commands.dynamic_cooldown(type=BucketType.user, cooldown=bypass_for_owner)
     async def colours(self, ctx, user: discord.Member = None):
         """Shows you the top few colours in a persons pfp"""
@@ -126,7 +126,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
                 img_file = await dagpi_img(user, ImageFeatures.hog())
                 await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply(
+                    "This command did not work with you profile picture possibly because it is a gif."
+                )
 
     @commands.command()
     async def night(self, ctx, user: discord.Member = None):
@@ -138,7 +140,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
                 img_file = await dagpi_img(user, ImageFeatures.night())
                 await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply(
+                    "This command did not work with you profile picture possibly because it is a gif."
+                )
 
     @commands.command()
     async def rainbow(self, ctx, user: discord.Member = None):
@@ -150,7 +154,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
                 img_file = await dagpi_img(user, ImageFeatures.rainbow())
                 await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply(
+                    "This command did not work with you profile picture possibly because it is a gif."
+                )
 
     @commands.command()
     async def america(self, ctx, user: discord.Member = None):
@@ -162,7 +168,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
                 img_file = await dagpi_img(user, ImageFeatures.america())
                 await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply(
+                    "This command did not work with you profile picture possibly because it is a gif."
+                )
 
     @commands.command()
     async def wasted(self, ctx, user: discord.Member = None):
@@ -174,7 +182,9 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
                 img_file = await dagpi_img(user, ImageFeatures.wasted())
                 await ctx.reply(file=img_file)
             except KeyError:
-                await ctx.reply('This command did not work with you profile picture possibly because it is a gif.')
+                await ctx.reply(
+                    "This command did not work with you profile picture possibly because it is a gif."
+                )
 
     @commands.command()
     async def youtube(self, ctx, member: discord.Member = None, *, comments: str):
@@ -192,10 +202,12 @@ class Image(commands.Cog, name="🖼️ Image Manipulation"):
 
             embed.set_image(url="attachment://ytcomment.png")
             embed.set_footer(
-                text=f'Requested by {ctx.author}',
-                icon_url=ctx.author.avatar)
+                text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar
+            )
 
-            file = discord.File(io.BytesIO(await image.read()), filename="ytcomment.png")
+            file = discord.File(
+                io.BytesIO(await image.read()), filename="ytcomment.png"
+            )
 
             await ctx.reply(embed=embed, file=file)
 
