@@ -11,8 +11,4 @@ This discord bot was made as my first ever python project with some nice messy c
 Project is created with:
 * [Python 3.9](https://www.python.org/downloads/)
 * [Discord.py](https://discordpy.readthedocs.io/en/latest/)
-* And a bunch of other libraries found in the requirements.txt!
-
-<div align=center>
-    <strong>by LtCustard (2020-2022)</strong>
-</div>
+* And a bunch of other libraries found in the requirements.txt
